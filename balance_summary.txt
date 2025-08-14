@@ -1,0 +1,386 @@
+Balance Changes Summary
+=====================
+
+Card Changes:
+--------------
+
+Major Balance Changes:
+--------------------
+
+Fushiguro Megumi (Child):
+  Original: Cost: 1, ATK: 150, DEF: 120
+  Final: Cost: 1, ATK: 150, DEF: 100
+  Changes: DEF: 120 -> 100
+
+Akari Nitta (Jujutsu High Assistant Supervisor):
+  Original: Cost: 1, ATK: 140, DEF: 180
+  Final: Cost: 1, ATK: 150, DEF: 200
+  Changes: ATK: 140 -> 150, DEF: 180 -> 200
+
+Kiyotaka Ijichi (Tokyo Jujutsu High):
+  Original: Cost: 1, ATK: 150, DEF: 180
+  Final: Cost: 1, ATK: 150, DEF: 200
+  Changes: DEF: 180 -> 200
+
+Kiyotaka Ijichi (Shibuya Survivor):
+  Original: Cost: 1, ATK: 170, DEF: 200
+  Final: Cost: 1, ATK: 150, DEF: 200
+  Changes: ATK: 170 -> 150
+
+Panda (Second Year Student):
+  Original: Cost: 1, ATK: 200, DEF: 180
+  Final: Cost: 1, ATK: 200, DEF: 200
+  Changes: DEF: 180 -> 200
+
+Shoko Ieiri (Tokyo Jujutsu High Doctor):
+  Original: Cost: 1, ATK: 180, DEF: 220
+  Final: Cost: 1, ATK: 200, DEF: 200
+  Changes: ATK: 180 -> 200, DEF: 220 -> 200
+
+Toge Inumaki (Second Year):
+  Original: Cost: 1, ATK: 200, DEF: 220
+  Final: Cost: 1, ATK: 200, DEF: 200
+  Changes: DEF: 220 -> 200
+
+Kasumi Miwa (Second Year):
+  Original: Cost: 1, ATK: 220, DEF: 200
+  Final: Cost: 1, ATK: 200, DEF: 200
+  Changes: ATK: 220 -> 200
+
+Kasumi Miwa (Second Year):
+  Original: Cost: 1, ATK: 220, DEF: 200
+  Final: Cost: 1, ATK: 200, DEF: 200
+  Changes: ATK: 220 -> 200
+
+Kokichi Muta (Mechamaru - Second Year):
+  Original: Cost: 1, ATK: 220, DEF: 200
+  Final: Cost: 1, ATK: 200, DEF: 200
+  Changes: ATK: 220 -> 200
+
+Tsumiki Fushiguro (Step-Sister):
+  Original: Cost: 1, ATK: 200, DEF: 220
+  Final: Cost: 1, ATK: 200, DEF: 200
+  Changes: DEF: 220 -> 200
+
+Fumihiko Takaba (Failed Comedian):
+  Original: Cost: 2, ATK: 220, DEF: 200
+  Final: Cost: 2, ATK: 200, DEF: 200
+  Changes: ATK: 220 -> 200
+
+Rin Amai (Sendai City Sorcerer):
+  Original: Cost: 2, ATK: 220, DEF: 200
+  Final: Cost: 2, ATK: 200, DEF: 200
+  Changes: ATK: 220 -> 200
+
+Hiromi Higuruma (Step-Sister):
+  Original: Cost: 2, ATK: 200, DEF: 220
+  Final: Cost: 2, ATK: 200, DEF: 200
+  Changes: DEF: 220 -> 200
+
+Kirara Hoshi (Third Year):
+  Original: Cost: 2, ATK: 220, DEF: 200
+  Final: Cost: 2, ATK: 200, DEF: 200
+  Changes: ATK: 220 -> 200
+
+Momo Nishimiya (Second Year):
+  Original: Cost: 2, ATK: 200, DEF: 220
+  Final: Cost: 2, ATK: 200, DEF: 200
+  Changes: DEF: 220 -> 200
+
+Akari Nitta (Kyoto Jujutsu High Principal):
+  Original: Cost: 2, ATK: 230, DEF: 200
+  Final: Cost: 2, ATK: 250, DEF: 200
+  Changes: ATK: 230 -> 250
+
+Masamichi Yaga (Jujutsu High Principal):
+  Original: Cost: 2, ATK: 230, DEF: 200
+  Final: Cost: 2, ATK: 250, DEF: 200
+  Changes: ATK: 230 -> 250
+
+Rin Amai (Culling Game Player):
+  Original: Cost: 2, ATK: 230, DEF: 210
+  Final: Cost: 2, ATK: 250, DEF: 200
+  Changes: ATK: 230 -> 250, DEF: 210 -> 200
+
+Mai Zenin (Zenin Heir):
+  Original: Cost: 2, ATK: 230, DEF: 220
+  Final: Cost: 2, ATK: 250, DEF: 200
+  Changes: ATK: 230 -> 250, DEF: 220 -> 200
+
+Takuma Ino (Grade 2 Sorcerer):
+  Original: Cost: 2, ATK: 240, DEF: 220
+  Final: Cost: 2, ATK: 250, DEF: 200
+  Changes: ATK: 240 -> 250, DEF: 220 -> 200
+
+Fushiguro Megumi (Shibuya Arc):
+  Original: Cost: 2, ATK: 240, DEF: 220
+  Final: Cost: 2, ATK: 250, DEF: 200
+  Changes: ATK: 240 -> 250, DEF: 220 -> 200
+
+Yoshinobu Gakuganji (Elder Board Member):
+  Original: Cost: 2, ATK: 240, DEF: 220
+  Final: Cost: 2, ATK: 250, DEF: 200
+  Changes: ATK: 240 -> 250, DEF: 220 -> 200
+
+Momo Nishimiya (Flying Broom User):
+  Original: Cost: 2, ATK: 220, DEF: 250
+  Final: Cost: 2, ATK: 200, DEF: 250
+  Changes: ATK: 220 -> 200
+
+Haba (Propeller-Head):
+  Original: Cost: 2, ATK: 250, DEF: 220
+  Final: Cost: 2, ATK: 250, DEF: 200
+  Changes: DEF: 220 -> 200
+
+Kirara Hoshi (Space-Time Attraction):
+  Original: Cost: 2, ATK: 250, DEF: 230
+  Final: Cost: 2, ATK: 250, DEF: 250
+  Changes: DEF: 230 -> 250
+
+Masamichi Yaga (Cursed Corpses Creator):
+  Original: Cost: 3, ATK: 250, DEF: 230
+  Final: Cost: 3, ATK: 250, DEF: 250
+  Changes: DEF: 230 -> 250
+
+Tsumiki Fushiguro (Reincarnated Sorcerer):
+  Original: Cost: 3, ATK: 250, DEF: 230
+  Final: Cost: 3, ATK: 250, DEF: 250
+  Changes: DEF: 230 -> 250
+
+Kinji Hakari (Third Year):
+  Original: Cost: 3, ATK: 270, DEF: 230
+  Final: Cost: 3, ATK: 250, DEF: 250
+  Changes: ATK: 270 -> 250, DEF: 230 -> 250
+
+Aoi Todo (Third Year):
+  Original: Cost: 3, ATK: 280, DEF: 220
+  Final: Cost: 3, ATK: 300, DEF: 200
+  Changes: ATK: 280 -> 300, DEF: 220 -> 200
+
+Takako Uro (Ancient Sorcerer):
+  Original: Cost: 3, ATK: 270, DEF: 250
+  Final: Cost: 3, ATK: 250, DEF: 250
+  Changes: ATK: 270 -> 250
+
+Noritoshi Kamo (Blood Manipulation Specialist):
+  Original: Cost: 3, ATK: 280, DEF: 240
+  Final: Cost: 3, ATK: 300, DEF: 250
+  Changes: ATK: 280 -> 300, DEF: 240 -> 250
+
+Naoya Zenin (Zenin Clan Heir):
+  Original: Cost: 3, ATK: 280, DEF: 250
+  Final: Cost: 3, ATK: 300, DEF: 250
+  Changes: ATK: 280 -> 300
+
+Tsumiki Fushiguro (Culling Games):
+  Original: Cost: 3, ATK: 280, DEF: 250
+  Final: Cost: 3, ATK: 300, DEF: 250
+  Changes: ATK: 280 -> 300
+
+Fushiguro Megumi (Mahoraga):
+  Original: Cost: 3, ATK: 280, DEF: 250
+  Final: Cost: 3, ATK: 300, DEF: 250
+  Changes: ATK: 280 -> 300
+
+Kento Nanami (Grade 1 Sorcerer):
+  Original: Cost: 3, ATK: 280, DEF: 250
+  Final: Cost: 3, ATK: 300, DEF: 250
+  Changes: ATK: 280 -> 300
+
+Hiromi Higuruma (Judge):
+  Original: Cost: 3, ATK: 270, DEF: 260
+  Final: Cost: 3, ATK: 250, DEF: 250
+  Changes: ATK: 270 -> 250, DEF: 260 -> 250
+
+Yuta Okkotsu (First Year):
+  Original: Cost: 3, ATK: 280, DEF: 250
+  Final: Cost: 3, ATK: 300, DEF: 250
+  Changes: ATK: 280 -> 300
+
+Mei Mei (Bird-Based Cursed Technique):
+  Original: Cost: 4, ATK: 280, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: ATK: 280 -> 300, DEF: 280 -> 300
+
+Fumihiko Takaba (Infinite Potential):
+  Original: Cost: 4, ATK: 280, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: ATK: 280 -> 300, DEF: 280 -> 300
+
+Takako Uro (Culling Games):
+  Original: Cost: 4, ATK: 290, DEF: 270
+  Final: Cost: 4, ATK: 300, DEF: 250
+  Changes: ATK: 290 -> 300, DEF: 270 -> 250
+
+Hana Kurusu (Divine Messenger):
+  Original: Cost: 4, ATK: 280, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: ATK: 280 -> 300, DEF: 280 -> 300
+
+Hiromi Higuruma (Culling Games):
+  Original: Cost: 4, ATK: 290, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: ATK: 290 -> 300, DEF: 280 -> 300
+
+Suguru Geto (Cursed Spirit Collector):
+  Original: Cost: 4, ATK: 300, DEF: 270
+  Final: Cost: 4, ATK: 300, DEF: 250
+  Changes: DEF: 270 -> 250
+
+Gojo Satoru (Toji Incident):
+  Original: Cost: 4, ATK: 320, DEF: 250
+  Final: Cost: 4, ATK: 300, DEF: 250
+  Changes: ATK: 320 -> 300
+
+Kento Nanami (Ratio Master):
+  Original: Cost: 4, ATK: 300, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: DEF: 280 -> 300
+
+Naobito Zenin (Former Zenin Clan Leader):
+  Original: Cost: 4, ATK: 300, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: DEF: 280 -> 300
+
+Ryu Ishigori (Golden Era Sorcerer):
+  Original: Cost: 4, ATK: 310, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: ATK: 310 -> 300, DEF: 280 -> 300
+
+Naoya Zenin (Projection Sorcery Master):
+  Original: Cost: 4, ATK: 320, DEF: 270
+  Final: Cost: 4, ATK: 300, DEF: 250
+  Changes: ATK: 320 -> 300, DEF: 270 -> 250
+
+Kokichi Muta (Ultimate Mechamaru Mode):
+  Original: Cost: 4, ATK: 320, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: ATK: 320 -> 300, DEF: 280 -> 300
+
+Yuta Okkotsu (Shibuya Incident):
+  Original: Cost: 4, ATK: 320, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: ATK: 320 -> 300, DEF: 280 -> 300
+
+Yuki Tsukumo (Special Grade Sorcerer):
+  Original: Cost: 4, ATK: 320, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: ATK: 320 -> 300, DEF: 280 -> 300
+
+Kenjaku (Golden Era):
+  Original: Cost: 4, ATK: 320, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: ATK: 320 -> 300, DEF: 280 -> 300
+
+Hajime Kashimo (Culling Games):
+  Original: Cost: 4, ATK: 320, DEF: 280
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: ATK: 320 -> 300, DEF: 280 -> 300
+
+Kento Nanami (Shibuya Incident):
+  Original: Cost: 4, ATK: 320, DEF: 300
+  Final: Cost: 4, ATK: 300, DEF: 300
+  Changes: ATK: 320 -> 300
+
+Takako Uro (Space Manipulator):
+  Original: Cost: 5, ATK: 320, DEF: 300
+  Final: Cost: 5, ATK: 300, DEF: 300
+  Changes: ATK: 320 -> 300
+
+Ryu Ishigori (Culling Games):
+  Original: Cost: 5, ATK: 330, DEF: 300
+  Final: Cost: 5, ATK: 350, DEF: 300
+  Changes: ATK: 330 -> 350
+
+Maki Zenin (Heavenly Restriction):
+  Original: Cost: 5, ATK: 350, DEF: 280
+  Final: Cost: 5, ATK: 350, DEF: 300
+  Changes: DEF: 280 -> 300
+
+Ryu Ishigori (Dessert Enthusiast):
+  Original: Cost: 6, ATK: 350, DEF: 320
+  Final: Cost: 6, ATK: 350, DEF: 300
+  Changes: DEF: 320 -> 300
+
+Kenjaku (The Culling Games):
+  Original: Cost: 7, ATK: 380, DEF: 320
+  Final: Cost: 7, ATK: 400, DEF: 300
+  Changes: ATK: 380 -> 400, DEF: 320 -> 300
+
+Ryomen Sukuna (Binding Vow):
+  Original: Cost: 7, ATK: 380, DEF: 340
+  Final: Cost: 7, ATK: 400, DEF: 350
+  Changes: ATK: 380 -> 400, DEF: 340 -> 350
+
+Ryomen Sukuna (Fuega):
+  Original: Cost: 7, ATK: 420, DEF: 320
+  Final: Cost: 7, ATK: 400, DEF: 300
+  Changes: ATK: 420 -> 400, DEF: 320 -> 300
+
+Minor Balance Changes:
+--------------------
+
+Rin Amai (Culling Games):
+  Changes: ATK: 210 -> 200, DEF: 190 -> 200
+
+Noritoshi Kamo (Third Year):
+  Changes: ATK: 240 -> 250, DEF: 210 -> 200
+
+Maki Zenin (Second Year):
+  Changes: ATK: 260 -> 250
+
+Toge Inumaki (Cursed Speech User):
+  Changes: ATK: 240 -> 250
+
+Suguru Geto (Tokyo High Student):
+  Changes: ATK: 260 -> 250, DEF: 240 -> 250
+
+Mei Mei (Grade 1 Sorcerer):
+  Changes: ATK: 260 -> 250
+
+Hana Kurusu (Culling Games):
+  Changes: ATK: 260 -> 250
+
+Takuma Ino (Hidden Weapon Specialist):
+  Changes: ATK: 260 -> 250
+
+Hajime Kashimo (400-Year-Old Sorcerer):
+  Changes: DEF: 260 -> 250
+
+Unchanged Cards:
+--------------
+  Kasumi Miwa (Second Year)
+  Kasumi Miwa (Second Year)
+  Fushiguro Megumi (Detention Center)
+  Panda (Abrupt Mutated Cursed Corpse)
+  Shoko Ieiri (Reverse Curse Master)
+  Mai Zenin (Creation Technique User)
+  Fumihiko Takaba (Culling Games)
+  Panda (Triclops Mode)
+  Kenjaku (Cursed Womb)
+  Aoi Todo (Exchange Event)
+  Maki Zenin (Awakening)
+  Kinji Hakari (Culling Games)
+  Kenjaku (Shibuya Incident)
+  Aoi Todo (Boogie Woogie Master)
+  Yuta Okkotsu (Culling Games)
+  Hajime Kashimo (Electric God)
+  Naobito Zenin (Projection Sorcery Master)
+  Kinji Hakari (Infinite Jackpot)
+  Suguru Geto (Shibuya Incident)
+  Master Tengen (Immortal Barrier Master)
+  Gojo Satoru (Shibuya Incident)
+  Ryomen Sukuna (The King Of Curses)
+  Yuki Tsukumo (Star Rage Technique)
+  Gojo Satoru (The Honored One - Culling Games)
+  Ryomen Sukuna (Golden Era)
+
+Balance Statistics:
+-----------------
+Total Cards: 96
+Major Changes: 62
+Minor Changes: 9
+Unchanged: 25
+
+Final Balance Score: 129.2082
+Total Iterations: 0
