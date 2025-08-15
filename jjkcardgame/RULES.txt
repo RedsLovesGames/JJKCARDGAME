@@ -1,0 +1,51 @@
+﻿TBD after refix
+Card Types
+1. Areas (Max 1 per side)
+
+   * Provide buffs or debuffs to all creatures on that player's field.
+   * Could have continuous effects (like boosting certain types of cards) or one-time effects (triggering upon placement).
+   * Example:
+   * Shibuya Incident – Sorcerers lose 10% HP per turn but gain +50 ATK when fighting in the Area.
+   2. Creatures (Sorcerers & Cursed Spirits)
+
+      * These are the main battle units with ATK (Attack), DEF (Defense), and HP.
+      * The characters all have main and ultimate abilities
+      * Ultimate abilities cost credits
+
+
+      3. Spells (Abilities, Traps, and Special Moves)
+
+         * Can be instant, continuous, or triggered.
+         * Some may require conditions (e.g., only usable when HP is below 500).
+         * Example:
+         * Extraction Technique: Choose a card. Gain Energy equal to the cost of its Ultimate Attack.
+
+
+________________
+
+
+Game Resources
+         1. HP – Players start with 2,000 HP.
+         2. Energy –
+         * Starts at 1 Energy on Turn 1.
+         * Gains +1 Energy per turn (max 3 per turn).
+         * Can store up to 10 Energy.
+         * Some cards might allow Energy boosting or storing beyond 10 (e.g., "Cursed Energy Overflow").
+         3. Actions – You can do multiple actions as long as you have enough Energy to pay for them.
+         4. Ultimates are an important part of the game and can change the tide of a game
+________________
+
+
+Additional Gameplay Mechanics
+         1. Turn Structure
+
+            * Draw Phase – Draw 1 card.
+            * Energy Gain Phase – Gain Energy.
+            * Action Phase – Play creatures, use spells, attack, activate abilities/ultimates.
+            * End Phase – Resolve any lingering effects.
+            2. Battle Mechanics
+
+               * Creatures attack directly or battle other creatures.
+               * DEF reduces incoming ATK damage.
+               * If ATK > DEF, excess damage carries over to HP.
+               * All characters if not destroyed at end of turn go back to max hp unless an ability dictates otherwise

@@ -1,0 +1,874 @@
+JJK CARD GAME BALANCE SUMMARY
+==================================================
+Generated: 2025-03-05 17:27:23
+
+CARD BALANCE SCORES
+
+==================================================
+
+
+Fumihiko Takaba (Failed Comedian):
+  Total Score: 52.4/100
+  Win Rate: 47.80% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.21% (Score: 4.42)
+  Cost Efficiency: 8.0
+
+Haba (Propeller-Head):
+  Total Score: 52.4/100
+  Win Rate: 47.42% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.22% (Score: 4.44)
+  Cost Efficiency: 8.0
+
+Kiyotaka Ijichi (Shibuya Survivor):
+  Total Score: 54.2/100
+  Win Rate: 46.94% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.12% (Score: 4.25)
+  Cost Efficiency: 10
+
+Naoya Zenin (Zenin Clan Heir):
+  Total Score: 52.4/100
+  Win Rate: 47.03% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.22% (Score: 4.44)
+  Cost Efficiency: 8.0
+
+Takako Uro (Culling Games):
+  Total Score: 5.3/100
+  Win Rate: 66.67% (Score: 0)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.00% (Score: 0.01)
+  Cost Efficiency: 5.333333333333333
+
+Kinji Hakari (Culling Games):
+  Total Score: 5.3/100
+  Win Rate: 66.67% (Score: 0)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.00% (Score: 0.01)
+  Cost Efficiency: 5.333333333333333
+
+Yuta Okkotsu (First Year):
+  Total Score: 46.5/100
+  Win Rate: 46.93% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.56% (Score: 1.13)
+  Cost Efficiency: 5.333333333333333
+
+Rin Amai (Culling Game Player):
+  Total Score: 54.6/100
+  Win Rate: 47.35% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.29% (Score: 4.59)
+  Cost Efficiency: 10
+
+Akari Nitta (Kyoto Jujutsu High Principal):
+  Total Score: 54.5/100
+  Win Rate: 48.31% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.26% (Score: 4.51)
+  Cost Efficiency: 10
+
+Aoi Todo (Exchange Event):
+  Total Score: 49.2/100
+  Win Rate: 49.76% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.58% (Score: 1.15)
+  Cost Efficiency: 8.0
+
+Mai Zenin (Creation Technique User):
+  Total Score: 54.5/100
+  Win Rate: 47.77% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.23% (Score: 4.46)
+  Cost Efficiency: 10
+
+Yoshinobu Gakuganji (Elder Board Member):
+  Total Score: 52.6/100
+  Win Rate: 47.11% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.28% (Score: 4.57)
+  Cost Efficiency: 8.0
+
+Kiyotaka Ijichi (Tokyo Jujutsu High):
+  Total Score: 54.1/100
+  Win Rate: 47.18% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.07% (Score: 4.14)
+  Cost Efficiency: 10
+
+Hana Kurusu (Divine Messenger):
+  Total Score: 45.3/100
+  Win Rate: 44.44% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.00% (Score: 0.01)
+  Cost Efficiency: 5.333333333333333
+
+Kirara Hoshi (Space-Time Attraction):
+  Total Score: 54.6/100
+  Win Rate: 46.65% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.29% (Score: 4.58)
+  Cost Efficiency: 10
+
+Panda (Second Year Student):
+  Total Score: 54.2/100
+  Win Rate: 46.57% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.11% (Score: 4.22)
+  Cost Efficiency: 10
+
+Takuma Ino (Hidden Weapon Specialist):
+  Total Score: 52.4/100
+  Win Rate: 46.33% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.20% (Score: 4.39)
+  Cost Efficiency: 8.0
+
+Toge Inumaki (Cursed Speech User):
+  Total Score: 51.2/100
+  Win Rate: 48.21% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.60% (Score: 1.20)
+  Cost Efficiency: 10
+
+Hiromi Higuruma (Judge):
+  Total Score: 51.2/100
+  Win Rate: 53.12% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.59% (Score: 1.18)
+  Cost Efficiency: 10
+
+Masamichi Yaga (Cursed Corpses Creator):
+  Total Score: 51.2/100
+  Win Rate: 49.49% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.60% (Score: 1.19)
+  Cost Efficiency: 10
+
+Hiromi Higuruma (Step-Sister):
+  Total Score: 54.3/100
+  Win Rate: 47.10% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.15% (Score: 4.31)
+  Cost Efficiency: 10
+
+Panda (Abrupt Mutated Cursed Corpse):
+  Total Score: 54.1/100
+  Win Rate: 46.92% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.04% (Score: 4.07)
+  Cost Efficiency: 10
+
+Maki Zenin (Awakening):
+  Total Score: 51.2/100
+  Win Rate: 49.05% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.58% (Score: 1.15)
+  Cost Efficiency: 10
+
+Tsumiki Fushiguro (Culling Games):
+  Total Score: 54.4/100
+  Win Rate: 45.43% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.20% (Score: 4.40)
+  Cost Efficiency: 10
+
+Fushiguro Megumi (Shibuya Arc):
+  Total Score: 54.6/100
+  Win Rate: 46.69% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.29% (Score: 4.57)
+  Cost Efficiency: 10
+
+Kenjaku (Cursed Womb):
+  Total Score: 52.5/100
+  Win Rate: 47.08% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.25% (Score: 4.50)
+  Cost Efficiency: 8.0
+
+Akari Nitta (Jujutsu High Assistant Supervisor):
+  Total Score: 54.2/100
+  Win Rate: 46.87% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.10% (Score: 4.20)
+  Cost Efficiency: 10
+
+Takuma Ino (Grade 2 Sorcerer):
+  Total Score: 52.5/100
+  Win Rate: 46.42% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.27% (Score: 4.53)
+  Cost Efficiency: 8.0
+
+Kasumi Miwa (Second Year):
+  Total Score: 57.8/100
+  Win Rate: 45.00% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 3.92% (Score: 7.84)
+  Cost Efficiency: 10
+
+Mei Mei (Grade 1 Sorcerer):
+  Total Score: 46.5/100
+  Win Rate: 51.88% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.57% (Score: 1.14)
+  Cost Efficiency: 5.333333333333333
+
+Hana Kurusu (Culling Games):
+  Total Score: 46.5/100
+  Win Rate: 48.11% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.58% (Score: 1.16)
+  Cost Efficiency: 5.333333333333333
+
+Kokichi Muta (Mechamaru - Second Year):
+  Total Score: 54.2/100
+  Win Rate: 47.49% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.12% (Score: 4.23)
+  Cost Efficiency: 10
+
+Masamichi Yaga (Jujutsu High Principal):
+  Total Score: 54.4/100
+  Win Rate: 46.83% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.18% (Score: 4.37)
+  Cost Efficiency: 10
+
+Kinji Hakari (Third Year):
+  Total Score: 46.5/100
+  Win Rate: 49.86% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.58% (Score: 1.17)
+  Cost Efficiency: 5.333333333333333
+
+Momo Nishimiya (Flying Broom User):
+  Total Score: 52.2/100
+  Win Rate: 47.32% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.11% (Score: 4.21)
+  Cost Efficiency: 8.0
+
+Suguru Geto (Tokyo High Student):
+  Total Score: 52.4/100
+  Win Rate: 46.36% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.20% (Score: 4.40)
+  Cost Efficiency: 8.0
+
+Aoi Todo (Third Year):
+  Total Score: 52.5/100
+  Win Rate: 47.17% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.24% (Score: 4.47)
+  Cost Efficiency: 8.0
+
+Tsumiki Fushiguro (Step-Sister):
+  Total Score: 54.2/100
+  Win Rate: 47.94% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.12% (Score: 4.23)
+  Cost Efficiency: 10
+
+Naobito Zenin (Former Zenin Clan Leader):
+  Total Score: 10.0/100
+  Win Rate: 66.67% (Score: 0)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.00% (Score: 0.01)
+  Cost Efficiency: 10
+
+Noritoshi Kamo (Blood Manipulation Specialist):
+  Total Score: 52.5/100
+  Win Rate: 48.21% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.24% (Score: 4.48)
+  Cost Efficiency: 8.0
+
+Noritoshi Kamo (Third Year):
+  Total Score: 52.5/100
+  Win Rate: 47.02% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.25% (Score: 4.50)
+  Cost Efficiency: 8.0
+
+Fumihiko Takaba (Culling Games):
+  Total Score: 52.4/100
+  Win Rate: 48.27% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.22% (Score: 4.44)
+  Cost Efficiency: 8.0
+
+Mai Zenin (Zenin Heir):
+  Total Score: 54.3/100
+  Win Rate: 48.31% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.14% (Score: 4.29)
+  Cost Efficiency: 10
+
+Fushiguro Megumi (Child):
+  Total Score: 54.2/100
+  Win Rate: 48.25% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.12% (Score: 4.23)
+  Cost Efficiency: 10
+
+Fushiguro Megumi (Mahoraga):
+  Total Score: 51.2/100
+  Win Rate: 50.19% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.59% (Score: 1.17)
+  Cost Efficiency: 10
+
+Maki Zenin (Second Year):
+  Total Score: 54.1/100
+  Win Rate: 46.22% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.06% (Score: 4.13)
+  Cost Efficiency: 10
+
+Kento Nanami (Shibuya Incident):
+  Total Score: 8.0/100
+  Win Rate: 33.33% (Score: 0)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.00% (Score: 0.01)
+  Cost Efficiency: 8.0
+
+Hiromi Higuruma (Culling Games):
+  Total Score: 10.0/100
+  Win Rate: 80.00% (Score: 0)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.00% (Score: 0.01)
+  Cost Efficiency: 10
+
+Kirara Hoshi (Third Year):
+  Total Score: 54.2/100
+  Win Rate: 46.91% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.11% (Score: 4.21)
+  Cost Efficiency: 10
+
+Momo Nishimiya (Second Year):
+  Total Score: 52.5/100
+  Win Rate: 47.66% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.27% (Score: 4.54)
+  Cost Efficiency: 8.0
+
+Kento Nanami (Grade 1 Sorcerer):
+  Total Score: 52.3/100
+  Win Rate: 47.58% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.16% (Score: 4.32)
+  Cost Efficiency: 8.0
+
+Shoko Ieiri (Reverse Curse Master):
+  Total Score: 54.1/100
+  Win Rate: 45.43% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.05% (Score: 4.09)
+  Cost Efficiency: 10
+
+Panda (Triclops Mode):
+  Total Score: 54.5/100
+  Win Rate: 46.61% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.25% (Score: 4.49)
+  Cost Efficiency: 10
+
+Toge Inumaki (Second Year):
+  Total Score: 54.2/100
+  Win Rate: 47.73% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.12% (Score: 4.24)
+  Cost Efficiency: 10
+
+Rin Amai (Culling Games):
+  Total Score: 54.2/100
+  Win Rate: 47.56% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.12% (Score: 4.23)
+  Cost Efficiency: 10
+
+Tsumiki Fushiguro (Reincarnated Sorcerer):
+  Total Score: 51.2/100
+  Win Rate: 51.63% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.59% (Score: 1.17)
+  Cost Efficiency: 10
+
+Rin Amai (Sendai City Sorcerer):
+  Total Score: 54.2/100
+  Win Rate: 47.44% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.09% (Score: 4.17)
+  Cost Efficiency: 10
+
+Yuki Tsukumo (Special Grade Sorcerer):
+  Total Score: 10.0/100
+  Win Rate: 20.00% (Score: 0)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.00% (Score: 0.01)
+  Cost Efficiency: 10
+
+Shoko Ieiri (Tokyo Jujutsu High Doctor):
+  Total Score: 54.0/100
+  Win Rate: 48.29% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.02% (Score: 4.03)
+  Cost Efficiency: 10
+
+Takako Uro (Ancient Sorcerer):
+  Total Score: 46.5/100
+  Win Rate: 49.44% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 0.59% (Score: 1.18)
+  Cost Efficiency: 5.333333333333333
+
+Fushiguro Megumi (Detention Center):
+  Total Score: 54.2/100
+  Win Rate: 47.79% (Score: 40)
+  Damage Output: 0.0 avg (Score: 0.00)
+  Play Rate: 2.08% (Score: 4.16)
+  Cost Efficiency: 10
+
+CARD CHANGES
+--------------------
+
+Fushiguro Megumi (Child)
+==================================================
+ATK: 150 -> 100 (-50)
+DEF: 120 -> 100 (-20)
+
+Ultimate Ability:
+  Name: Shadow Step
+  Damage Multiplier: x0
+
+
+Akari Nitta (Jujutsu High Assistant Supervisor)
+==================================================
+ATK: 140 -> 100 (-40)
+DEF: 180 -> 100 (-80)
+
+
+Kiyotaka Ijichi (Tokyo Jujutsu High)
+==================================================
+ATK: 150 -> 100 (-50)
+DEF: 180 -> 100 (-80)
+
+
+Kiyotaka Ijichi (Shibuya Survivor)
+==================================================
+ATK: 170 -> 100 (-70)
+DEF: 200 -> 100 (-100)
+
+
+Panda (Second Year Student)
+==================================================
+ATK: 200 -> 100 (-100)
+DEF: 180 -> 100 (-80)
+
+
+Shoko Ieiri (Tokyo Jujutsu High Doctor)
+==================================================
+ATK: 180 -> 100 (-80)
+DEF: 220 -> 100 (-120)
+
+
+Kasumi Miwa (Second Year)
+==================================================
+ATK: 200 -> 100 (-100)
+DEF: 200 -> 100 (-100)
+
+
+Fushiguro Megumi (Detention Center)
+==================================================
+ATK: 200 -> 100 (-100)
+DEF: 200 -> 100 (-100)
+
+Ultimate Ability:
+  Name: Divine Dog: Totality
+  Damage Multiplier: x0
+
+
+Rin Amai (Culling Games)
+==================================================
+ATK: 210 -> 100 (-110)
+DEF: 190 -> 100 (-90)
+
+
+Toge Inumaki (Second Year)
+==================================================
+ATK: 200 -> 100 (-100)
+DEF: 220 -> 100 (-120)
+
+
+Kasumi Miwa (Second Year)
+==================================================
+ATK: 200 -> 100 (-100)
+DEF: 200 -> 100 (-100)
+
+
+Kokichi Muta (Mechamaru - Second Year)
+==================================================
+ATK: 220 -> 100 (-120)
+DEF: 200 -> 100 (-100)
+
+
+Tsumiki Fushiguro (Step-Sister)
+==================================================
+ATK: 200 -> 100 (-100)
+DEF: 220 -> 100 (-120)
+
+
+Fumihiko Takaba (Failed Comedian)
+==================================================
+ATK: 220 -> 100 (-120)
+DEF: 200 -> 100 (-100)
+
+
+Rin Amai (Sendai City Sorcerer)
+==================================================
+ATK: 220 -> 100 (-120)
+DEF: 200 -> 100 (-100)
+Cost: 2 -> 1 (-1)
+
+
+Hiromi Higuruma (Step-Sister)
+==================================================
+ATK: 200 -> 100 (-100)
+DEF: 220 -> 100 (-120)
+Cost: 2 -> 1 (-1)
+
+
+Kirara Hoshi (Third Year)
+==================================================
+ATK: 220 -> 100 (-120)
+DEF: 200 -> 100 (-100)
+Cost: 2 -> 1 (-1)
+
+
+Momo Nishimiya (Second Year)
+==================================================
+ATK: 200 -> 100 (-100)
+DEF: 220 -> 100 (-120)
+
+
+Akari Nitta (Kyoto Jujutsu High Principal)
+==================================================
+ATK: 230 -> 100 (-130)
+DEF: 200 -> 100 (-100)
+
+
+Masamichi Yaga (Jujutsu High Principal)
+==================================================
+ATK: 230 -> 100 (-130)
+DEF: 200 -> 100 (-100)
+Cost: 2 -> 1 (-1)
+
+
+Rin Amai (Culling Game Player)
+==================================================
+ATK: 230 -> 100 (-130)
+DEF: 210 -> 100 (-110)
+
+
+Panda (Abrupt Mutated Cursed Corpse)
+==================================================
+ATK: 250 -> 100 (-150)
+DEF: 200 -> 100 (-100)
+Cost: 2 -> 1 (-1)
+
+
+Noritoshi Kamo (Third Year)
+==================================================
+ATK: 240 -> 100 (-140)
+DEF: 210 -> 100 (-110)
+
+
+Shoko Ieiri (Reverse Curse Master)
+==================================================
+ATK: 200 -> 100 (-100)
+DEF: 250 -> 100 (-150)
+Cost: 2 -> 1 (-1)
+
+
+Mai Zenin (Zenin Heir)
+==================================================
+ATK: 230 -> 100 (-130)
+DEF: 220 -> 100 (-120)
+Cost: 2 -> 1 (-1)
+
+
+Maki Zenin (Second Year)
+==================================================
+ATK: 260 -> 100 (-160)
+DEF: 200 -> 100 (-100)
+Cost: 2 -> 1 (-1)
+
+
+Takuma Ino (Grade 2 Sorcerer)
+==================================================
+ATK: 240 -> 100 (-140)
+DEF: 220 -> 100 (-120)
+
+
+Fushiguro Megumi (Shibuya Arc)
+==================================================
+ATK: 240 -> 100 (-140)
+DEF: 220 -> 100 (-120)
+
+Ultimate Ability:
+  Name: Chimera Shadow Garden
+  Damage Multiplier: x0
+
+
+Yoshinobu Gakuganji (Elder Board Member)
+==================================================
+ATK: 240 -> 100 (-140)
+DEF: 220 -> 100 (-120)
+
+
+Momo Nishimiya (Flying Broom User)
+==================================================
+ATK: 220 -> 100 (-120)
+DEF: 250 -> 100 (-150)
+Cost: 2 -> 1 (-1)
+
+
+Haba (Propeller-Head)
+==================================================
+ATK: 250 -> 100 (-150)
+DEF: 220 -> 100 (-120)
+
+
+Kirara Hoshi (Space-Time Attraction)
+==================================================
+ATK: 250 -> 100 (-150)
+DEF: 230 -> 100 (-130)
+
+
+Masamichi Yaga (Cursed Corpses Creator)
+==================================================
+ATK: 250 -> 100 (-150)
+DEF: 230 -> 100 (-130)
+
+
+Tsumiki Fushiguro (Reincarnated Sorcerer)
+==================================================
+ATK: 250 -> 100 (-150)
+DEF: 230 -> 100 (-130)
+
+
+Toge Inumaki (Cursed Speech User)
+==================================================
+ATK: 240 -> 100 (-140)
+DEF: 250 -> 100 (-150)
+
+
+Mai Zenin (Creation Technique User)
+==================================================
+ATK: 250 -> 100 (-150)
+DEF: 250 -> 100 (-150)
+Cost: 3 -> 2 (-1)
+
+
+Kinji Hakari (Third Year)
+==================================================
+ATK: 270 -> 100 (-170)
+DEF: 230 -> 100 (-130)
+
+
+Suguru Geto (Tokyo High Student)
+==================================================
+ATK: 260 -> 100 (-160)
+DEF: 240 -> 100 (-140)
+Cost: 3 -> 2 (-1)
+
+
+Fumihiko Takaba (Culling Games)
+==================================================
+ATK: 250 -> 100 (-150)
+DEF: 250 -> 100 (-150)
+Cost: 3 -> 2 (-1)
+
+
+Aoi Todo (Third Year)
+==================================================
+ATK: 280 -> 100 (-180)
+DEF: 220 -> 100 (-120)
+Cost: 3 -> 2 (-1)
+
+
+Mei Mei (Grade 1 Sorcerer)
+==================================================
+ATK: 260 -> 100 (-160)
+DEF: 250 -> 100 (-150)
+
+
+Hana Kurusu (Culling Games)
+==================================================
+ATK: 260 -> 100 (-160)
+DEF: 250 -> 100 (-150)
+
+
+Takuma Ino (Hidden Weapon Specialist)
+==================================================
+ATK: 260 -> 100 (-160)
+DEF: 250 -> 100 (-150)
+Cost: 3 -> 2 (-1)
+
+
+Takako Uro (Ancient Sorcerer)
+==================================================
+ATK: 270 -> 100 (-170)
+DEF: 250 -> 100 (-150)
+
+
+Noritoshi Kamo (Blood Manipulation Specialist)
+==================================================
+ATK: 280 -> 100 (-180)
+DEF: 240 -> 100 (-140)
+Cost: 3 -> 2 (-1)
+
+
+Naoya Zenin (Zenin Clan Heir)
+==================================================
+ATK: 280 -> 100 (-180)
+DEF: 250 -> 100 (-150)
+Cost: 3 -> 2 (-1)
+
+Ultimate Ability:
+  Name: Warp Strike
+  Damage Multiplier: x0
+
+
+Tsumiki Fushiguro (Culling Games)
+==================================================
+ATK: 280 -> 100 (-180)
+DEF: 250 -> 100 (-150)
+Cost: 3 -> 2 (-1)
+
+
+Fushiguro Megumi (Mahoraga)
+==================================================
+ATK: 280 -> 100 (-180)
+DEF: 250 -> 100 (-150)
+
+Ultimate Ability:
+  Name: Eight-Handled Sword Divergent Sila Divine General
+  Damage Multiplier: x0
+
+
+Kento Nanami (Grade 1 Sorcerer)
+==================================================
+ATK: 280 -> 100 (-180)
+DEF: 250 -> 100 (-150)
+Cost: 3 -> 2 (-1)
+
+
+Hiromi Higuruma (Judge)
+==================================================
+ATK: 270 -> 100 (-170)
+DEF: 260 -> 100 (-160)
+
+
+Yuta Okkotsu (First Year)
+==================================================
+ATK: 280 -> 100 (-180)
+DEF: 250 -> 100 (-150)
+
+
+Panda (Triclops Mode)
+==================================================
+ATK: 300 -> 100 (-200)
+DEF: 250 -> 100 (-150)
+Cost: 3 -> 2 (-1)
+
+
+Kenjaku (Cursed Womb)
+==================================================
+ATK: 300 -> 100 (-200)
+DEF: 250 -> 100 (-150)
+Cost: 3 -> 2 (-1)
+
+Ultimate Ability:
+  Name: Cursed Womb
+  Damage Multiplier: x0
+
+
+Aoi Todo (Exchange Event)
+==================================================
+ATK: 300 -> 100 (-200)
+DEF: 250 -> 100 (-150)
+
+
+Maki Zenin (Awakening)
+==================================================
+ATK: 300 -> 100 (-200)
+DEF: 250 -> 100 (-150)
+
+
+Gojo Satoru (Toji Incident)
+==================================================
+
+Ultimate Ability:
+  Name: Hollow Purple
+  Damage Multiplier: x0
+
+
+Naoya Zenin (Projection Sorcery Master)
+==================================================
+
+Ultimate Ability:
+  Name: Time Compression Strike
+  Damage Multiplier: x2.0
+
+
+Kenjaku (Golden Era)
+==================================================
+
+Ultimate Ability:
+  Name: Ancient Knowledge
+  Damage Multiplier: x0
+
+
+Kenjaku (Shibuya Incident)
+==================================================
+
+Ultimate Ability:
+  Name: Shibuya Incident
+  Damage Multiplier: x0
+
+
+Gojo Satoru (Shibuya Incident)
+==================================================
+
+Ultimate Ability:
+  Name: Hollow Purple
+  Damage Multiplier: x0
+
+
+Kenjaku (The Culling Games)
+==================================================
+
+Ultimate Ability:
+  Name: Culling Games
+  Damage Multiplier: x0
+
+
+Gojo Satoru (The Honored One - Culling Games)
+==================================================
+
+Ultimate Ability:
+  Name: Hollow Purple: Divine Wrath
+  Damage Multiplier: x0
+
+
+
+Ultimate Ability Usage Analysis
+==================================================
+
+No ultimate abilities were used during the simulation.
