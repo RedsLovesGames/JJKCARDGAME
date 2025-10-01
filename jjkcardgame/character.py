@@ -6,7 +6,11 @@ Handles character creation, ability application, and combat interactions.
 
 from base_types import BaseCharacter
 from typing import Dict, Any, Optional
-from ultimate_abilities import UltimateAbilities, UltimateAbility
+from ultimate_abilities import (
+    UltimateAbilities,
+    UltimateAbility,
+    ULTIMATE_ABILITY_FUNCTIONS,
+)
 
 class Character(BaseCharacter):
     """
@@ -76,24 +80,9 @@ class Character(BaseCharacter):
 
     def get_ultimate_ability(self) -> Optional[UltimateAbility]:
         """Retrieve the ultimate ability for this character based on its name and variant."""
-        character_name = self.name.lower()
-        
-        # Map character names to their respective ultimate methods
-        ultimate_methods = {
-            'gojo satoru': UltimateAbilities.gojo_satoru_ultimate,
-            'fushiguro megumi': UltimateAbilities.fushiguro_megumi_ultimate,
-            'kugisaki nobara': UltimateAbilities.kugisaki_nobara_ultimate,
-            'nanami kento': UltimateAbilities.nanami_kento_ultimate,
-            'kenjaku': UltimateAbilities.kenjaku_ultimate,
-            'naoya zenin': UltimateAbilities.naoya_zenin_ultimate,
-            # Add other characters as needed
-        }
-        
-        # Get the appropriate ultimate method based on character name
-        ultimate_method = ultimate_methods.get(character_name)
-        if ultimate_method:
-            return ultimate_method(self, None, None)  # Pass character data as needed
-        
+        func = ULTIMATE_ABILITY_FUNCTIONS.get(self.name)
+        if func:
+            return func(self, None, None)
         return None
 
     def __init__(self, name, variant, cost, atk, def_, effect='', ultimate='', ultimate_cost=1):
