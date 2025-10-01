@@ -39,6 +39,8 @@ class CardAbility:
             "Master Tengen": CardAbility.tengen_ability,
             "Ryomen Sukuna": CardAbility.sukuna_ability,
             "Yuki Tsukumo": CardAbility.tsukumo_ability,
+            "Yuta Okkotsu": CardAbility.yuta_ability,
+            "Naobito Zenin": CardAbility.naobito_ability,
             "Ryu": CardAbility.ryu_ability,
             "Reggie": CardAbility.reggie_ability,
             "Dhruv": CardAbility.dhruv_ability,
@@ -374,6 +376,14 @@ class CardAbility:
             game_state['lifesteal'] = 0.5
 
     @staticmethod
+    def naobito_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
+        if "Clairvoyant Reflexes" in card.get('Effect', ''):
+            game_state['negate_next_attack'] = True
+            game_state['counter_damage'] = 150
+        elif "Instant Acceleration" in card.get('Effect', ''):
+            game_state['extra_attack_if_target_weaker'] = True
+
+    @staticmethod
     def naoya_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
         if "Projection Sorcery" in card.get('Effect', ''):
             game_state['speed_frames'] = 24
@@ -624,6 +634,8 @@ ABILITIES = {
     "Master Tengen": lambda char, game_state={}: CardAbility.tengen_ability(char, game_state),
     "Ryomen Sukuna": lambda char, game_state={}: CardAbility.sukuna_ability(char, game_state),
     "Yuki Tsukumo": lambda char, game_state={}: CardAbility.tsukumo_ability(char, game_state),
+    "Yuta Okkotsu": lambda char, game_state={}: CardAbility.yuta_ability(char, game_state),
+    "Naobito Zenin": lambda char, game_state={}: CardAbility.naobito_ability(char, game_state),
     "Ryu": lambda char, game_state={}: CardAbility.ryu_ability(char, game_state),
     "Reggie": lambda char, game_state={}: CardAbility.reggie_ability(char, game_state),
     "Dhruv": lambda char, game_state={}: CardAbility.dhruv_ability(char, game_state),

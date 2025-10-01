@@ -1,4 +1,6 @@
 from typing import Dict, Any, List, Optional
+import csv
+import os
 import random
 
 class UltimateAbility:
@@ -561,6 +563,24 @@ class UltimateAbilities:
         return UltimateAbility("Projection Sorcery", 1.0, {})
 
     @staticmethod
+    def naobito_zenin_ultimate(char: Any, active_player: Any, defending_player: Any) -> UltimateAbility:
+        """Ultimate ability for Naobito Zenin variants."""
+        variant = (char.variant or "").lower()
+        if "former zenin" in variant:
+            return UltimateAbility(
+                name="Projection Overdrive",
+                damage_multiplier=0,
+                effects={'target_disable': 2}
+            )
+        elif "projection sorcery master" in variant:
+            return UltimateAbility(
+                name="Extreme Motion Lock",
+                damage_multiplier=0,
+                effects={'all_enemies_skip_attack': True}
+            )
+        return UltimateAbility("Projection Overdrive", 1.0, {})
+
+    @staticmethod
     def nanami_kento_ultimate(char: Any, active_player: Any, defending_player: Any) -> UltimateAbility:
         """
         Covers:
@@ -651,43 +671,46 @@ class UltimateAbilities:
 
         return UltimateAbility(name, 1.0, effects)
 
+ULTIMATE_ABILITY_FUNCTIONS = {
+    'Gojo Satoru': UltimateAbilities.gojo_satoru_ultimate,
+    'Fushiguro Megumi': UltimateAbilities.fushiguro_megumi_ultimate,
+    'Kugisaki Nobara': UltimateAbilities.kugisaki_nobara_ultimate,
+    'Yuta Okkotsu': UltimateAbilities.yuta_okkotsu_ultimate,
+    'Panda': UltimateAbilities.panda_ultimate,
+    'Kinji Hakari': UltimateAbilities.hakari_kinji_ultimate,
+    'Maki Zenin': UltimateAbilities.maki_zenin_ultimate,
+    'Aoi Todo': UltimateAbilities.todo_aoi_ultimate,
+    'Kirara Hoshi': UltimateAbilities.kirara_hoshi_ultimate,
+    'Toge Inumaki': UltimateAbilities.inumaki_toge_ultimate,
+    'Suguru Geto': UltimateAbilities.geto_suguru_ultimate,
+    'Masamichi Yaga': UltimateAbilities.yaga_masamichi_ultimate,
+    'Shoko Ieiri': UltimateAbilities.shoko_ieiri_ultimate,
+    'Noritoshi Kamo': UltimateAbilities.kamo_noritoshi_ultimate,
+    'Mai Zenin': UltimateAbilities.mai_zenin_ultimate,
+    'Naoya Zenin': UltimateAbilities.naoya_zenin_ultimate,
+    'Naobito Zenin': UltimateAbilities.naobito_zenin_ultimate,
+    'Kento Nanami': UltimateAbilities.nanami_kento_ultimate,
+    'Kenjaku': UltimateAbilities.kenjaku_ultimate,
+}
+
+
 def get_ultimate_ability(character_name: str, variant: str = 'Standard') -> Optional[UltimateAbility]:
-    """
-    Get the ultimate ability for a given character and variant.
-    
-    Args:
-        character_name: Name of the character
-        variant: Variant of the character (default: 'Standard')
-        
-    Returns:
-        UltimateAbility object if one exists for the character, None otherwise
-    """
-    # Define ultimate abilities for different characters
-    ultimate_abilities = {
-        'Gojo Satoru': {
-            'Standard': UltimateAbility(
-                name="Hollow Purple",
-                damage_multiplier=2.5,
-                cooldown=3
-            )
-        },
-        'Yuji Itadori': {
-            'Standard': UltimateAbility(
-                name="Black Flash",
-                damage_multiplier=2.0,
-                cooldown=2
-            )
-        },
-        'Megumi Fushiguro': {
-            'Standard': UltimateAbility(
-                name="Divine Dogs",
-                damage_multiplier=1.8,
-                status_effects=['Bind'],
-                cooldown=2
-            )
-        }
-        # Add more characters and their ultimate abilities here
-    }
-    
-    # Return the ultimate ability if it exists
-    return ultimate_abilities.get(character_name, {}).get(variant)
+    """Return the UltimateAbility for the given character and variant."""
+    func = ULTIMATE_ABILITY_FUNCTIONS.get(character_name)
+    if not func:
+        csv_path = os.path.join(os.path.dirname(__file__), 'characters.csv')
+        try:
+            with open(csv_path) as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    if row['Name'] == character_name and row.get('Variant', 'Standard') == variant:
+                        return UltimateAbility(row['Ultimate Move'], 1.0, {})
+        except FileNotFoundError:
+            return None
+        return None
+
+    class _Char:
+        def __init__(self, variant: str) -> None:
+            self.variant = variant
+
+    return func(_Char(variant), None, None)
