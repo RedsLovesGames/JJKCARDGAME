@@ -7,7 +7,15 @@ from character import Character
 from player import Player
 from datetime import datetime
 from ultimate_abilities import get_ultimate_ability
-from card_abilities import CardAbility
+from card_abilities import (
+    CardAbility,
+    BuffATK,
+    BuffDEF,
+    DamageReduction,
+    Stun,
+    SummonToken,
+    FlagEffect,
+)
 
 class Battle:
     def __init__(self, player1: Player, player2: Player):
@@ -46,13 +54,13 @@ class Battle:
             'ignore_def': False,
             'spell_immunity': False
         }
-        
+
         # Initialize card damage tracker for all cards
         all_cards = set()
         for player in [player1, player2]:
             for card in player.deck.cards:
                 all_cards.add(card.name)
-        
+
         for card_name in all_cards:
             self.card_damage_tracker[card_name] = {
                 'damage_dealt': 0,
@@ -77,6 +85,80 @@ class Battle:
         self.player2.life_points = 2000
         self.player1.energy = 1    # Start with 1 energy on Turn 1
         self.player2.energy = 1
+
+    def _find_owner(self, character: Character) -> Optional[Player]:
+        if character in self.player1.field:
+            return self.player1
+        if character in self.player2.field:
+            return self.player2
+        return None
+
+    def _tick_effects(self, state_obj: Any):
+        active_effects = getattr(state_obj, 'active_effects', None)
+        if not active_effects:
+            return
+
+        for timed in list(active_effects['timed_effects']):
+            timed['remaining_turns'] -= 1
+            if timed['remaining_turns'] <= 0:
+                modifier = timed.get('modifier')
+                amount = timed.get('amount', 0)
+                if modifier in active_effects['modifiers']:
+                    active_effects['modifiers'][modifier] -= amount
+                active_effects['timed_effects'].remove(timed)
+
+        for status, turns in list(active_effects['statuses'].items()):
+            if turns <= 1:
+                del active_effects['statuses'][status]
+            else:
+                active_effects['statuses'][status] = turns - 1
+
+    def resolve_effects(self, effects, source, target, state):
+        """Apply structured effects onto player/character local state containers."""
+        if target is None:
+            return
+        if not hasattr(target, 'active_effects'):
+            return
+
+        for effect in effects:
+            if isinstance(effect, BuffATK):
+                target.active_effects['modifiers']['atk'] += effect.amount
+                if effect.duration > 0:
+                    target.active_effects['timed_effects'].append({
+                        'modifier': 'atk',
+                        'amount': effect.amount,
+                        'remaining_turns': effect.duration,
+                    })
+            elif isinstance(effect, BuffDEF):
+                target.active_effects['modifiers']['def'] += effect.amount
+                if effect.duration > 0:
+                    target.active_effects['timed_effects'].append({
+                        'modifier': 'def',
+                        'amount': effect.amount,
+                        'remaining_turns': effect.duration,
+                    })
+            elif isinstance(effect, DamageReduction):
+                target.active_effects['modifiers']['damage_reduction'] += effect.reduction
+                if effect.duration > 0:
+                    target.active_effects['timed_effects'].append({
+                        'modifier': 'damage_reduction',
+                        'amount': effect.reduction,
+                        'remaining_turns': effect.duration,
+                    })
+            elif isinstance(effect, Stun):
+                target.active_effects['statuses']['stunned'] = max(
+                    effect.duration,
+                    target.active_effects['statuses'].get('stunned', 0)
+                )
+            elif isinstance(effect, SummonToken):
+                owner = target if isinstance(target, Player) else self._find_owner(target)
+                if owner and len(owner.field) < 5:
+                    owner.field.append(Character(effect.name, "Token", 0, effect.atk, effect.def_, "Token", "", 0))
+            elif isinstance(effect, FlagEffect):
+                if effect.one_time:
+                    target.active_effects['one_time_triggers'].add(effect.flag)
+                else:
+                    target.active_effects['flags'][effect.flag] = effect.value
 
     def place_character(self, player: Player, character: Character) -> bool:
         if self.placements_this_turn[player.name] >= 2:
@@ -150,6 +232,10 @@ class Battle:
         # End Phase - Regenerate characters
         for character in active_player.field:
             character.regenerate_health()
+
+        self._tick_effects(active_player)
+        for character in active_player.field:
+            self._tick_effects(character)
         
         # Check for game end
         return opponent.life_points <= 0
@@ -210,11 +296,11 @@ class Battle:
         # Apply abilities for all characters on field
         for char in all_characters:
             card_data = {'Name': char.name, 'Effect': char.effect, 'Variant': char.variant}
-            CardAbility.apply_ability(card_data, self.game_state)
-            if self.game_state.get('damage_reduction', 0) > 0:
-                self.battle_log.append(f"  {char.name}'s ability reduces incoming damage by {self.game_state['damage_reduction']*100}%")
-            if self.game_state.get('energy_cost_reduction', False):
-                self.battle_log.append(f"  {char.name}'s ability reduces energy costs")
+            effects = CardAbility.apply_ability(card_data, self.game_state)
+            self.resolve_effects(effects, source=char, target=char, state=self.game_state)
+            if char.active_effects['modifiers'].get('damage_reduction', 0) > 0:
+                pct = int(char.active_effects['modifiers']['damage_reduction'] * 100)
+                self.battle_log.append(f"  {char.name}'s ability reduces incoming damage by {pct}%")
 
     def apply_passive_abilities(self, character: Character):
         """Apply passive abilities based on character and game state"""
@@ -250,22 +336,22 @@ class Battle:
         }
         
         # Apply abilities and log their effects
-        CardAbility.apply_ability(attacker_data, self.game_state)
-        CardAbility.apply_ability(defender_data, self.game_state)
+        self.resolve_effects(CardAbility.apply_ability(attacker_data, self.game_state), attacker, attacker, self.game_state)
+        self.resolve_effects(CardAbility.apply_ability(defender_data, self.game_state), defender, defender, self.game_state)
         
         # Apply damage modifiers
-        if self.game_state.get('damage_reduction', 0) > 0:
-            reduction = self.game_state['damage_reduction']
+        reduction = defender.get_damage_reduction() if hasattr(defender, 'get_damage_reduction') else 0
+        if reduction > 0:
             original_damage = damage
             damage = int(damage * (1 - reduction))
             self.battle_log.append(f"    {defender.name}'s damage reduction reduced damage from {original_damage} to {damage}")
             
-        if self.game_state.get('can_combo_attack', False):
+        if attacker.active_effects['flags'].get('can_combo_attack', False):
             original_damage = damage
             damage = int(damage * 1.5)
             self.battle_log.append(f"    Combo attack increases damage from {original_damage} to {damage}")
             
-        if self.game_state.get('ignore_def', False):
+        if attacker.active_effects['flags'].get('ignore_def', False):
             self.battle_log.append(f"    {attacker.name} ignores defense!")
             
         return damage
@@ -454,13 +540,16 @@ class Battle:
                 # Regular combat
                 if opponent.field:
                     target = max(opponent.field, key=lambda x: x.atk)
-                    damage = attacker.atk
+                    if attacker.active_effects['statuses'].get('stunned', 0) > 0:
+                        self.battle_log.append(f"{attacker.name} is stunned and cannot attack")
+                        continue
+                    damage = self.calculate_modified_damage(attacker, target, attacker.get_effective_atk())
                     actual_damage = target.take_damage(damage)
                     self._update_damage_stats(attacker.name, actual_damage, 'direct_damage')
                     self.battle_log.append(f"{attacker.name} attacks {target.name} for {actual_damage} damage")
                 else:
                     # Direct attack
-                    damage = attacker.atk
+                    damage = attacker.get_effective_atk()
                     opponent.take_damage(damage)
                     self._update_damage_stats(attacker.name, damage, 'direct_damage')
                     self.battle_log.append(f"{attacker.name} attacks directly for {damage} damage")

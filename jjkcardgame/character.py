@@ -108,6 +108,27 @@ class Character(BaseCharacter):
         self.cannot_attack_next_turn = False
         self.status_effects = []
         self.regen_rate = 1.0
+        self.active_effects = {
+            'modifiers': {
+                'atk': 0,
+                'def': 0,
+                'damage_reduction': 0.0,
+            },
+            'statuses': {},
+            'timed_effects': [],
+            'one_time_triggers': set(),
+            'flags': {}
+        }
+
+    def get_effective_atk(self) -> int:
+        return max(0, self.atk + int(self.active_effects['modifiers'].get('atk', 0)))
+
+    def get_effective_def(self) -> int:
+        return max(0, self.def_val + int(self.active_effects['modifiers'].get('def', 0)))
+
+    def get_damage_reduction(self) -> float:
+        reduction = float(self.active_effects['modifiers'].get('damage_reduction', 0.0))
+        return min(max(reduction, 0.0), 0.95)
 
     def apply_passive_ability(self):
         """
@@ -134,6 +155,8 @@ class Character(BaseCharacter):
 
     def take_damage(self, amount):
         """Process incoming damage with damage reduction if applicable."""
+        reduction = self.get_damage_reduction()
+        amount = int(amount * (1 - reduction))
         actual_damage = min(amount, self.current_health)
         self.current_health -= actual_damage
         return actual_damage
