@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog
 from player import Player
 from deck import Deck
-from battle import Battle
+from battle import Battle, HumanPolicy, AIPolicy
 from character import Character
 import pandas as pd
 
@@ -48,7 +48,12 @@ class JJKCardGameGUI:
 
         self.player1 = Player(player1_name, deck1)
         self.player2 = Player(player2_name, deck2)
-        self.battle = Battle(self.player1, self.player2)
+        self.battle = Battle(
+            self.player1,
+            self.player2,
+            player1_policy=HumanPolicy(),
+            player2_policy=AIPolicy()
+        )
 
         self.setup_game_ui()
 
