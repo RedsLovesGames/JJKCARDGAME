@@ -6,7 +6,7 @@ from deck import Deck
 from character import Character
 from player import Player
 from datetime import datetime
-from ultimate_abilities import get_ultimate_ability
+from ultimate_abilities import get_ultimate_ability, UltimateAbility
 from card_abilities import CardAbility
 
 class Battle:
@@ -91,35 +91,137 @@ class Battle:
         """Process combat damage and update statistics."""
         if not isinstance(attacker, Character):
             return
-        
-        # Check for ultimate ability activation
-        ultimate = get_ultimate_ability(attacker.name, attacker.variant)
-        
-        # Increase the chance of using the ultimate
-        if ultimate and defender.field and attacker.energy >= attacker.ultimate_energy_cost:
-            if random.random() < 1.0:  # 100% chance to use ultimate
-                target = max(defender.field, key=lambda x: x.current_health)
-                damage = attacker.use_ultimate(target)
-                if damage > 0:
-                    self._update_damage_stats(attacker.name, damage, 'ultimate_damage')
-                    self.battle_log.append(f"{attacker.name} uses ultimate on {target.name} for {damage} damage")
-                    return  # Skip regular attack if ultimate was used
 
-        # Regular combat
-        if defender.field:
-            target = max(defender.field, key=lambda x: x.atk)
+        if self._attempt_ultimate(attacker, defender):
+            return
+
+        self._resolve_regular_attack(attacker, defender)
+
+    def _attempt_ultimate(self, attacker: Character, opponent: Player) -> bool:
+        """Try resolving an ultimate attack for an attacker."""
+        if not opponent.field:
+            return False
+
+        if attacker.energy < attacker.ultimate_energy_cost:
+            return False
+
+        ability = attacker.use_ultimate()
+        if not ability:
+            return False
+
+        primary_target = max(opponent.field, key=lambda x: x.current_health)
+        self.resolve_ultimate(attacker, ability, primary_target, opponent)
+        return True
+
+    def resolve_ultimate(
+        self,
+        attacker: Character,
+        ability: UltimateAbility,
+        primary_target: Character,
+        opponent: Player
+    ) -> Dict[str, Any]:
+        """Resolve an ultimate ability and apply all supported effects."""
+        total_damage = 0
+        outcomes: List[str] = []
+        effects = ability.effects or {}
+
+        self.battle_log.append(
+            f"{attacker.name} uses ultimate {ability.name} on {primary_target.name}"
+        )
+
+        multiplier_damage = int(attacker.atk * max(ability.damage_multiplier, 0))
+        if multiplier_damage > 0:
+            dealt = primary_target.take_damage(multiplier_damage)
+            total_damage += dealt
+            outcomes.append(f"multiplier damage {dealt} to {primary_target.name}")
+
+        flat_damage = int(effects.get('flat_damage', 0) or 0)
+        if flat_damage > 0 and primary_target.is_alive():
+            dealt = primary_target.take_damage(flat_damage)
+            total_damage += dealt
+            outcomes.append(f"flat damage {dealt} to {primary_target.name}")
+
+        aoe_value = effects.get('aoe_damage', 0)
+        if isinstance(aoe_value, bool):
+            aoe_value = attacker.atk if aoe_value else 0
+        aoe_damage = int(aoe_value or 0)
+        if aoe_damage > 0:
+            aoe_total = 0
+            for target in list(opponent.field):
+                if target is primary_target and not target.is_alive():
+                    continue
+                dealt = target.take_damage(aoe_damage)
+                aoe_total += dealt
+            if aoe_total > 0:
+                total_damage += aoe_total
+                outcomes.append(f"AoE damage {aoe_total} to enemy field")
+
+        stun_turns = int(effects.get('stun', 0) or 0)
+        if stun_turns > 0 and primary_target.is_alive():
+            primary_target.cannot_attack_next_turn = True
+            outcomes.append(f"{primary_target.name} is stunned for {stun_turns} turn(s)")
+
+        if effects.get('disable_next_turn') and primary_target.is_alive():
+            primary_target.cannot_attack_next_turn = True
+            outcomes.append(f"{primary_target.name} is disabled next turn")
+
+        if effects.get('destroy_primary_target') and primary_target.is_alive():
+            dealt = primary_target.take_damage(primary_target.current_health)
+            total_damage += dealt
+            outcomes.append(f"{primary_target.name} was destroyed")
+
+        if effects.get('conditional_destroy') and primary_target.is_alive() and primary_target.current_health <= attacker.atk:
+            dealt = primary_target.take_damage(primary_target.current_health)
+            total_damage += dealt
+            outcomes.append(f"conditional destroy triggered on {primary_target.name}")
+
+        conditional_aoe = effects.get('conditional_aoe') or {}
+        if isinstance(conditional_aoe, dict) and not primary_target.is_alive():
+            kill_aoe_damage = int(conditional_aoe.get('damage_if_kill', 0) or 0)
+            if kill_aoe_damage > 0:
+                kill_aoe_total = 0
+                for target in list(opponent.field):
+                    if target is primary_target:
+                        continue
+                    dealt = target.take_damage(kill_aoe_damage)
+                    kill_aoe_total += dealt
+                if kill_aoe_total > 0:
+                    total_damage += kill_aoe_total
+                    outcomes.append(f"conditional AoE dealt {kill_aoe_total}")
+
+        summon_data = effects.get('summon')
+        if isinstance(summon_data, dict):
+            summon_name = summon_data.get('name', 'Summon')
+            outcomes.append(f"summoned effect created: {summon_name}")
+
+        if total_damage > 0:
+            self._update_damage_stats(attacker.name, total_damage, 'ultimate_damage')
+
+        if outcomes:
+            for outcome in outcomes:
+                self.battle_log.append(f"  - {outcome}")
+        else:
+            self.battle_log.append("  - no immediate damage effect")
+
+        self.ability_usage_tracker.setdefault(attacker.name, {'abilities_used': [], 'times_used': 0})
+        self.ability_usage_tracker[attacker.name]['abilities_used'].append(ability.name)
+
+        return {'damage': total_damage, 'outcomes': outcomes}
+
+    def _resolve_regular_attack(self, attacker: Character, opponent: Player) -> None:
+        """Resolve regular non-ultimate combat."""
+        if opponent.field:
+            target = max(opponent.field, key=lambda x: x.atk)
             damage = attacker.atk
             actual_damage = target.take_damage(damage)
             self._update_damage_stats(attacker.name, actual_damage, 'direct_damage')
             self.battle_log.append(f"{attacker.name} attacks {target.name} for {actual_damage} damage")
         else:
-            # Direct attack
             damage = attacker.atk
-            defender.take_damage(damage)
+            opponent.take_damage(damage)
             self._update_damage_stats(attacker.name, damage, 'direct_damage')
             self.battle_log.append(f"{attacker.name} attacks directly for {damage} damage")
 
-        # Add energy after action
         attacker.add_energy()
 
     def process_character_combat(self, attacker: Character, defender: Character):
@@ -181,8 +283,8 @@ class Battle:
                     if ultimate:
                         f.write(f"{card_name} - {ultimate.name}: {damage} damage\n")
                         f.write(f"    Damage Multiplier: x{ultimate.damage_multiplier}\n")
-                        if ultimate.status_effects:
-                            f.write(f"    Status Effects: {', '.join(ultimate.status_effects)}\n")
+                        if ultimate.effects:
+                            f.write(f"    Effects: {ultimate.effects}\n")
             f.write("\nAbility Usage and Effects:\n")
             for card_name, stats in self.ability_usage_tracker.items():
                 if stats['times_used'] > 0:
@@ -440,34 +542,10 @@ class Battle:
         # Combat phase
         for attacker in active_player.field:
             try:
-                # First check for ultimate ability
-                ultimate = get_ultimate_ability(attacker.name, attacker.variant)
-                if (ultimate and opponent.field and 
-                    attacker.energy >= attacker.ultimate_energy_cost):
-                    target = max(opponent.field, key=lambda x: x.current_health)
-                    damage = attacker.use_ultimate(target)
-                    if damage > 0:
-                        self._update_damage_stats(attacker.name, damage, 'ultimate_damage')
-                        self.battle_log.append(f"{attacker.name} uses ultimate on {target.name} for {damage} damage")
-                        continue  # Skip regular attack if ultimate was used
+                if self._attempt_ultimate(attacker, opponent):
+                    continue
 
-                # Regular combat
-                if opponent.field:
-                    target = max(opponent.field, key=lambda x: x.atk)
-                    damage = attacker.atk
-                    actual_damage = target.take_damage(damage)
-                    self._update_damage_stats(attacker.name, actual_damage, 'direct_damage')
-                    self.battle_log.append(f"{attacker.name} attacks {target.name} for {actual_damage} damage")
-                else:
-                    # Direct attack
-                    damage = attacker.atk
-                    opponent.take_damage(damage)
-                    self._update_damage_stats(attacker.name, damage, 'direct_damage')
-                    self.battle_log.append(f"{attacker.name} attacks directly for {damage} damage")
-
-                # Add energy after action
-                attacker.add_energy()
-                
+                self._resolve_regular_attack(attacker, opponent)
             except Exception as e:
                 self.battle_log.append(f"Combat failed for {attacker.name}: {str(e)}")
                 continue
