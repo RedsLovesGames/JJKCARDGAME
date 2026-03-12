@@ -6,8 +6,9 @@ from deck import Deck
 from character import Character
 from player import Player
 from datetime import datetime
-from ultimate_abilities import get_ultimate_ability
-from card_abilities import CardAbility
+from ultimate_abilities import get_ultimate_ability, ULTIMATE_ABILITY_FUNCTIONS
+from card_abilities import CardAbility, ABILITY_MAP
+from character_ids import normalize_character_name, report_binding_validation
 
 class Battle:
     def __init__(self, player1: Player, player2: Player):
@@ -480,6 +481,9 @@ def load_characters(filename='characters.csv'):
             print(f"Error: {filename} not found in {current_dir}")
             return None
         df = pd.read_csv(csv_path)
+        report_binding_validation(csv_path, tuple(ABILITY_MAP.keys()), tuple(ULTIMATE_ABILITY_FUNCTIONS.keys()))
+        if 'Name' in df.columns:
+            df['Name'] = df['Name'].apply(normalize_character_name)
         if df.empty:
             print(f"Error: {filename} is empty")
             return None
