@@ -1,59 +1,14 @@
 from typing import Dict, Any
 
+from character_ids import normalize_character_name
+
 class CardAbility:
     @staticmethod
     def apply_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        ability_map = {
-            "Fushiguro Megumi": CardAbility.megumi_ability,
-            "Akari Nitta": CardAbility.akari_ability,
-            "Kiyotaka Ijichi": CardAbility.ijichi_ability,
-            "Panda": CardAbility.panda_ability,
-            "Shoko Ieiri": CardAbility.shoko_ability,
-            "Kasumi Miwa": CardAbility.miwa_ability,
-            "Rin Amai": CardAbility.amai_ability,
-            "Toge Inumaki": CardAbility.inumaki_ability,
-            "Kokichi Muta": CardAbility.muta_ability,
-            "Tsumiki Fushiguro": CardAbility.tsumiki_ability,
-            "Fumihiko Takaba": CardAbility.takaba_ability,
-            "Kirara Hoshi": CardAbility.kirara_ability,
-            "Momo Nishimiya": CardAbility.momo_ability,
-            "Masamichi Yaga": CardAbility.yaga_ability,
-            "Mai Zenin": CardAbility.mai_ability,
-            "Maki Zenin": CardAbility.maki_ability,
-            "Takuma Ino": CardAbility.ino_ability,
-            "Yoshinobu Gakuganji": CardAbility.gakuganji_ability,
-            "Haba": CardAbility.haba_ability,
-            "Kinji Hakari": CardAbility.hakari_ability,
-            "Suguru Geto": CardAbility.geto_ability,
-            "Aoi Todo": CardAbility.todo_ability,
-            "Mei Mei": CardAbility.mei_mei_ability,
-            "Hana Kurusu": CardAbility.kurusu_ability,
-            "Takako Uro": CardAbility.uro_ability,
-            "Noritoshi Kamo": CardAbility.kamo_ability,
-            "Naoya Zenin": CardAbility.naoya_ability,
-            "Kento Nanami": CardAbility.nanami_ability,
-            "Hiromi Higuruma": CardAbility.higuruma_ability,
-            "Kenjaku": CardAbility.kenjaku_ability,
-            "Hajime Kashimo": CardAbility.kashimo_ability,
-            "Ryu Ishigori": CardAbility.ishigori_ability,
-            "Master Tengen": CardAbility.tengen_ability,
-            "Ryomen Sukuna": CardAbility.sukuna_ability,
-            "Yuki Tsukumo": CardAbility.tsukumo_ability,
-            "Yuta Okkotsu": CardAbility.yuta_ability,
-            "Naobito Zenin": CardAbility.naobito_ability,
-            "Ryu": CardAbility.ryu_ability,
-            "Reggie": CardAbility.reggie_ability,
-            "Dhruv": CardAbility.dhruv_ability,
-            "Kurourushi": CardAbility.kurourushi_ability,
-            "Charles": CardAbility.charles_ability,
-            "Yaga": CardAbility.yaga_ability,
-            "UI": CardAbility.ui_ability,
-            "Brain": CardAbility.brain_ability,
-            "Gojo Satoru": CardAbility.gojo_ability
-        }
-        
-        if card['Name'] in ability_map:
-            ability_map[card['Name']](card, game_state)
+        canonical_name = normalize_character_name(card.get('Name'))
+        ability_func = ABILITY_MAP.get(canonical_name)
+        if ability_func:
+            ability_func(card, game_state)
 
     @staticmethod
     def gojo_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
@@ -646,3 +601,52 @@ ABILITIES = {
     "Brain": lambda char, game_state={}: CardAbility.brain_ability(char, game_state),
     "Gojo Satoru": lambda char, game_state={}: CardAbility.gojo_ability(char, game_state)
 }
+
+ABILITY_MAP = {
+    "Fushiguro Megumi": CardAbility.megumi_ability,
+    "Akari Nitta": CardAbility.akari_ability,
+    "Kiyotaka Ijichi": CardAbility.ijichi_ability,
+    "Panda": CardAbility.panda_ability,
+    "Shoko Ieiri": CardAbility.shoko_ability,
+    "Kasumi Miwa": CardAbility.miwa_ability,
+    "Rin Amai": CardAbility.amai_ability,
+    "Toge Inumaki": CardAbility.inumaki_ability,
+    "Kokichi Muta": CardAbility.muta_ability,
+    "Tsumiki Fushiguro": CardAbility.tsumiki_ability,
+    "Fumihiko Takaba": CardAbility.takaba_ability,
+    "Kirara Hoshi": CardAbility.kirara_ability,
+    "Momo Nishimiya": CardAbility.momo_ability,
+    "Masamichi Yaga": CardAbility.yaga_ability,
+    "Mai Zenin": CardAbility.mai_ability,
+    "Maki Zenin": CardAbility.maki_ability,
+    "Takuma Ino": CardAbility.ino_ability,
+    "Yoshinobu Gakuganji": CardAbility.gakuganji_ability,
+    "Haba": CardAbility.haba_ability,
+    "Kinji Hakari": CardAbility.hakari_ability,
+    "Suguru Geto": CardAbility.geto_ability,
+    "Aoi Todo": CardAbility.todo_ability,
+    "Mei Mei": CardAbility.mei_mei_ability,
+    "Hana Kurusu": CardAbility.kurusu_ability,
+    "Takako Uro": CardAbility.uro_ability,
+    "Noritoshi Kamo": CardAbility.kamo_ability,
+    "Naoya Zenin": CardAbility.naoya_ability,
+    "Kento Nanami": CardAbility.nanami_ability,
+    "Hiromi Higuruma": CardAbility.higuruma_ability,
+    "Kenjaku": CardAbility.kenjaku_ability,
+    "Hajime Kashimo": CardAbility.kashimo_ability,
+    "Ryu Ishigori": CardAbility.ishigori_ability,
+    "Master Tengen": CardAbility.tengen_ability,
+    "Ryomen Sukuna": CardAbility.sukuna_ability,
+    "Yuki Tsukumo": CardAbility.tsukumo_ability,
+    "Yuta Okkotsu": CardAbility.yuta_ability,
+    "Naobito Zenin": CardAbility.naobito_ability,
+    "Gojo Satoru": CardAbility.gojo_ability,
+    # Legacy keys retained for backward compatibility
+    "Reggie": CardAbility.reggie_ability,
+    "Dhruv": CardAbility.dhruv_ability,
+    "Kurourushi": CardAbility.kurourushi_ability,
+    "Charles": CardAbility.charles_ability,
+    "UI": CardAbility.ui_ability,
+    "Brain": CardAbility.brain_ability,
+}
+

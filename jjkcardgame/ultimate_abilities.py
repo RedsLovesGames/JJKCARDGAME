@@ -3,6 +3,8 @@ import csv
 import os
 import random
 
+from character_ids import normalize_character_name
+
 class UltimateAbility:
     def __init__(
         self,
@@ -696,14 +698,15 @@ ULTIMATE_ABILITY_FUNCTIONS = {
 
 def get_ultimate_ability(character_name: str, variant: str = 'Standard') -> Optional[UltimateAbility]:
     """Return the UltimateAbility for the given character and variant."""
-    func = ULTIMATE_ABILITY_FUNCTIONS.get(character_name)
+    canonical_name = normalize_character_name(character_name)
+    func = ULTIMATE_ABILITY_FUNCTIONS.get(canonical_name)
     if not func:
         csv_path = os.path.join(os.path.dirname(__file__), 'characters.csv')
         try:
             with open(csv_path) as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    if row['Name'] == character_name and row.get('Variant', 'Standard') == variant:
+                    if normalize_character_name(row['Name']) == canonical_name and row.get('Variant', 'Standard') == variant:
                         return UltimateAbility(row['Ultimate Move'], 1.0, {})
         except FileNotFoundError:
             return None
