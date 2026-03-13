@@ -1,59 +1,14 @@
-from typing import Dict, Any
+from __future__ import annotations
+
+from character_ids import normalize_character_name
 
 class CardAbility:
     @staticmethod
     def apply_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        ability_map = {
-            "Fushiguro Megumi": CardAbility.megumi_ability,
-            "Akari Nitta": CardAbility.akari_ability,
-            "Kiyotaka Ijichi": CardAbility.ijichi_ability,
-            "Panda": CardAbility.panda_ability,
-            "Shoko Ieiri": CardAbility.shoko_ability,
-            "Kasumi Miwa": CardAbility.miwa_ability,
-            "Rin Amai": CardAbility.amai_ability,
-            "Toge Inumaki": CardAbility.inumaki_ability,
-            "Kokichi Muta": CardAbility.muta_ability,
-            "Tsumiki Fushiguro": CardAbility.tsumiki_ability,
-            "Fumihiko Takaba": CardAbility.takaba_ability,
-            "Kirara Hoshi": CardAbility.kirara_ability,
-            "Momo Nishimiya": CardAbility.momo_ability,
-            "Masamichi Yaga": CardAbility.yaga_ability,
-            "Mai Zenin": CardAbility.mai_ability,
-            "Maki Zenin": CardAbility.maki_ability,
-            "Takuma Ino": CardAbility.ino_ability,
-            "Yoshinobu Gakuganji": CardAbility.gakuganji_ability,
-            "Haba": CardAbility.haba_ability,
-            "Kinji Hakari": CardAbility.hakari_ability,
-            "Suguru Geto": CardAbility.geto_ability,
-            "Aoi Todo": CardAbility.todo_ability,
-            "Mei Mei": CardAbility.mei_mei_ability,
-            "Hana Kurusu": CardAbility.kurusu_ability,
-            "Takako Uro": CardAbility.uro_ability,
-            "Noritoshi Kamo": CardAbility.kamo_ability,
-            "Naoya Zenin": CardAbility.naoya_ability,
-            "Kento Nanami": CardAbility.nanami_ability,
-            "Hiromi Higuruma": CardAbility.higuruma_ability,
-            "Kenjaku": CardAbility.kenjaku_ability,
-            "Hajime Kashimo": CardAbility.kashimo_ability,
-            "Ryu Ishigori": CardAbility.ishigori_ability,
-            "Master Tengen": CardAbility.tengen_ability,
-            "Ryomen Sukuna": CardAbility.sukuna_ability,
-            "Yuki Tsukumo": CardAbility.tsukumo_ability,
-            "Yuta Okkotsu": CardAbility.yuta_ability,
-            "Naobito Zenin": CardAbility.naobito_ability,
-            "Ryu": CardAbility.ryu_ability,
-            "Reggie": CardAbility.reggie_ability,
-            "Dhruv": CardAbility.dhruv_ability,
-            "Kurourushi": CardAbility.kurourushi_ability,
-            "Charles": CardAbility.charles_ability,
-            "Yaga": CardAbility.yaga_ability,
-            "UI": CardAbility.ui_ability,
-            "Brain": CardAbility.brain_ability,
-            "Gojo Satoru": CardAbility.gojo_ability
-        }
-        
-        if card['Name'] in ability_map:
-            ability_map[card['Name']](card, game_state)
+        canonical_name = normalize_character_name(card.get('Name'))
+        ability_func = ABILITY_MAP.get(canonical_name)
+        if ability_func:
+            ability_func(card, game_state)
 
     @staticmethod
     def gojo_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
@@ -293,289 +248,45 @@ class CardAbility:
         elif "Comedic Omnipotence" in card.get('Effect', ''):
             game_state['choose_effect'] = ['double_atk', 'negate_effects', 'heal_ally']
 
-    @staticmethod
-    def kirara_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Celestial Attraction" in card.get('Effect', ''):
-            game_state['can_lock_position'] = True
-        elif "Love Connection" in card.get('Effect', ''):
-            game_state['shared_damage'] = True
-        elif "Space-Time Attraction" in card.get('Variant', ''):
-            game_state['mark_enemy'] = True
 
-    @staticmethod
-    def momo_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Aerial Combat" in card.get('Effect', ''):
-            game_state['immune_to_melee'] = True
-        elif "Tactical Aerial Support" in card.get('Effect', ''):
-            game_state['can_buff_ally'] = True
-            game_state['spell_immunity'] = True
-        elif "Flying Broom User" in card.get('Variant', ''):
-            game_state['can_push_back'] = True
+@dataclass(frozen=True)
+class AbilityEffect:
+    duration: int = 0
 
-    @staticmethod
-    def yaga_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Master Puppeteer" in card.get('Effect', ''):
-            game_state['can_summon_corpse'] = True
-            game_state['corpse_stats'] = {'ATK': 150, 'DEF': 150}
-            game_state['corpse_duration'] = 2
-        elif "Cursed Corpse" in card.get('Effect', ''):
-            game_state['can_summon_puppet'] = True
-            game_state['puppet_stats'] = {'ATK': 150, 'DEF': 150}
-        elif "Ultimate Puppet" in card.get('Effect', ''):
-            if game_state.get('puppet_count', 0) >= 3:
-                game_state['puppet_boost'] = True
-        elif "Principal's Authority" in card.get('Variant', ''):
-            game_state['boost_all_puppets'] = {'ATK': 50, 'DEF': 50}
 
-    @staticmethod
-    def mai_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Family Burden" in card.get('Effect', ''):
-            if game_state.get('maki_on_field', False):
-                card['ATK'] -= 50
-                card['DEF'] -= 50
-                game_state['ignore_def'] = True
+@dataclass(frozen=True)
+class BuffATK(AbilityEffect):
+    amount: int = 0
 
-    @staticmethod
-    def ino_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Junior Hero" in card.get('Effect', ''):
-            if game_state.get('high_grade_on_field', False):
-                card['ATK'] += 50
 
-    @staticmethod
-    def gakuganji_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Strict Leadership" in card.get('Effect', ''):
-            kyoto_creatures = game_state.get('kyoto_creatures', [])
-            for creature in kyoto_creatures:
-                creature['ATK'] += 50
+@dataclass(frozen=True)
+class BuffDEF(AbilityEffect):
+    amount: int = 0
 
-    @staticmethod
-    def haba_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Cursed Tool Specialist" in card.get('Effect', ''):
-            game_state['tool_damage_bonus'] = 50
-        elif "Weapon Master" in card.get('Effect', ''):
-            if game_state.get('has_curse_tool', False):
-                card['ATK'] += 100
 
-    @staticmethod
-    def kurusu_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Angel's Grace" in card.get('Effect', ''):
-            game_state['negate_next_effect'] = True
-        elif "Purifying Light" in card.get('Effect', ''):
-            game_state['curse_spirit_debuff'] = True
-        elif "Heaven's Judgment" in card.get('Variant', ''):
-            game_state['can_banish_cursed_technique'] = True
+@dataclass(frozen=True)
+class DamageReduction(AbilityEffect):
+    reduction: float = 0.0
 
-    @staticmethod
-    def kamo_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Blood Manipulation" in card.get('Effect', ''):
-            game_state['can_sacrifice_health'] = True
-            game_state['health_to_damage'] = 2
-        elif "Flowing Red Scale" in card.get('Effect', ''):
-            game_state['piercing_damage'] = True
-        elif "Blood Technique Master" in card.get('Variant', ''):
-            game_state['lifesteal'] = 0.5
 
-    @staticmethod
-    def naobito_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Clairvoyant Reflexes" in card.get('Effect', ''):
-            game_state['negate_next_attack'] = True
-            game_state['counter_damage'] = 150
-        elif "Instant Acceleration" in card.get('Effect', ''):
-            game_state['extra_attack_if_target_weaker'] = True
+@dataclass(frozen=True)
+class Stun(AbilityEffect):
+    pass
 
-    @staticmethod
-    def naoya_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Projection Sorcery" in card.get('Effect', ''):
-            game_state['speed_frames'] = 24
-            game_state['bonus_attacks'] = 1
-        elif "Speed Master" in card.get('Effect', ''):
-            if game_state.get('consecutive_attacks', 0) > 0:
-                game_state['bonus_damage'] = 50
-        elif "Cursed Spirit" in card.get('Variant', ''):
-            game_state['mach_speed'] = True
-            game_state['ignore_defense'] = True
 
-    @staticmethod
-    def higuruma_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Judgeman's Court" in card.get('Effect', ''):
-            game_state['can_confiscate_effect'] = True
-        elif "Death Sentence" in card.get('Effect', ''):
-            if game_state.get('judgment_passed', False):
-                game_state['execution_mode'] = True
-        elif "Lawyer's Domain" in card.get('Variant', ''):
-            game_state['disable_enemy_abilities'] = True
+@dataclass(frozen=True)
+class SummonToken(AbilityEffect):
+    name: str = "Token"
+    atk: int = 0
+    def_: int = 0
 
-    @staticmethod
-    def ishigori_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Strongest Output" in card.get('Effect', ''):
-            if game_state.get('target_def_higher_than_atk', False):
-                game_state['bonus_damage'] = 50
-        elif "Satisfaction Always Comes Last" in card.get('Effect', ''):
-            if game_state.get('solo_creature', False):
-                card['ATK'] += 100
-                card['DEF'] += 100
-        elif "High-Calorie Resilience" in card.get('Effect', ''):
-            game_state['heal_per_turn'] = 50
 
-    @staticmethod
-    def tengen_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Star Plasma Vessel" in card.get('Effect', ''):
-            game_state['barrier_strength'] = 200
-        elif "Immortal Sorcerer" in card.get('Effect', ''):
-            game_state['cannot_be_destroyed'] = True
-        elif "Master of Barriers" in card.get('Variant', ''):
-            game_state['global_protection'] = True
-            game_state['all_allies_barrier'] = 100
-        elif "Barrier Expansion" in card.get('Effect', ''):
-            game_state['global_damage_reduction'] = 50
+@dataclass(frozen=True)
+class FlagEffect(AbilityEffect):
+    flag: str = ""
+    value: Any = True
+    one_time: bool = False
 
-    @staticmethod
-    def tsukumo_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Carefree Powerhouse" in card.get('Effect', ''):
-            game_state['immune_to_atk_reduction'] = True
-        elif "Anti-Curse Supremacy" in card.get('Effect', ''):
-            if game_state.get('target_is_curse_spirit', False):
-                game_state['bonus_damage'] = 100
-        elif "Star Rage Technique" in card.get('Variant', ''):
-            game_state['can_banish_curse_spirit'] = True
-
-    @staticmethod
-    def mei_mei_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Bird Strike" in card.get('Effect', ''):
-            game_state['can_summon_birds'] = True
-            game_state['bird_stats'] = {'ATK': 100, 'DEF': 50}
-        elif "Mercenary Spirit" in card.get('Effect', ''):
-            if game_state.get('enemy_destroyed', False):
-                game_state['bonus_energy'] = 1
-        elif "Ultimate Mercenary" in card.get('Variant', ''):
-            game_state['bird_swarm'] = True
-            game_state['bird_count'] = 3
-
-    @staticmethod
-    def yuji_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Divergent Fist" in card.get('Effect', ''):
-            game_state['double_impact'] = True
-        elif "Black Flash Master" in card.get('Effect', ''):
-            if game_state.get('consecutive_hits', 0) >= 3:
-                game_state['black_flash_bonus'] = 150
-        elif "Sukuna Vessel" in card.get('Variant', ''):
-            game_state['can_transform'] = True
-            game_state['transform_cost'] = 3
-
-    @staticmethod
-    def choso_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Blood Manipulation" in card.get('Effect', ''):
-            game_state['blood_control'] = True
-        elif "Death Painting" in card.get('Effect', ''):
-            game_state['poison_damage'] = 50
-        elif "Cursed Womb" in card.get('Variant', ''):
-            game_state['can_summon_brothers'] = True
-            game_state['brother_stats'] = {'ATK': 200, 'DEF': 200}
-
-    @staticmethod
-    def mahito_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Idle Transfiguration" in card.get('Effect', ''):
-            game_state['can_transform_enemy'] = True
-        elif "Soul Manipulation" in card.get('Effect', ''):
-            game_state['soul_damage'] = True
-        elif "Evolved Form" in card.get('Variant', ''):
-            game_state['self_transform'] = True
-            game_state['bonus_stats'] = {'ATK': 200, 'DEF': 200}
-
-    @staticmethod
-    def jogo_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Volcanic Eruption" in card.get('Effect', ''):
-            game_state['area_damage'] = 100
-        elif "Maximum: Meteor" in card.get('Effect', ''):
-            game_state['can_summon_meteor'] = True
-        elif "Disaster Flame" in card.get('Variant', ''):
-            game_state['burn_damage'] = 50
-            game_state['burn_duration'] = 3
-
-    @staticmethod
-    def hanami_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Flower Field" in card.get('Effect', ''):
-            game_state['curse_energy_drain'] = True
-        elif "Root Growth" in card.get('Effect', ''):
-            game_state['can_restrict_movement'] = True
-        elif "Disaster Plant" in card.get('Variant', ''):
-            game_state['heal_from_damage'] = True
-
-    @staticmethod
-    def dagon_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Water Formation" in card.get('Effect', ''):
-            game_state['flood_field'] = True
-        elif "Horizon of the Captivating Skandha" in card.get('Effect', ''):
-            game_state['domain_active'] = True
-            game_state['guaranteed_hit'] = True
-        elif "Death Swarm" in card.get('Variant', ''):
-            game_state['summon_fish'] = True
-            game_state['fish_stats'] = {'ATK': 50, 'DEF': 50}
-            game_state['fish_count'] = 5
-
-    @staticmethod
-    def toji_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Heavenly Restriction" in card.get('Effect', ''):
-            game_state['immune_to_cursed_energy'] = True
-            card['ATK'] += 200
-        elif "Curse Tool Arsenal" in card.get('Effect', ''):
-            game_state['weapon_master'] = True
-            game_state['bonus_damage'] = 100
-        elif "Perfect Preparation" in card.get('Variant', ''):
-            game_state['ignore_barriers'] = True
-            game_state['first_strike'] = True
-
-    @staticmethod
-    def ryu_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Granite Blast" in card.get('Effect', ''):
-            game_state['piercing_damage'] = True
-        elif "Cursed Energy Control" in card.get('Effect', ''):
-            if game_state.get('max_output', False):
-                card['ATK'] *= 2
-        elif "Dessert Enthusiast" in card.get('Variant', ''):
-            if game_state.get('solo_creature', False):
-                card['ATK'] += 100
-                card['DEF'] += 100
-
-    @staticmethod
-    def reggie_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Comedian's Luck" in card.get('Effect', ''):
-            game_state['random_effect'] = True
-        elif "Reality Manipulation" in card.get('Effect', ''):
-            game_state['can_change_gamestate'] = True
-        elif "Perfect Understanding" in card.get('Variant', ''):
-            game_state['immune_to_effects'] = True
-
-    @staticmethod
-    def dhruv_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Constellation Array" in card.get('Effect', ''):
-            game_state['can_place_stars'] = True
-        elif "Stellar Formation" in card.get('Effect', ''):
-            if game_state.get('star_count', 0) >= 3:
-                game_state['damage_bonus'] = 150
-        elif "Master of the Stars" in card.get('Variant', ''):
-            game_state['star_damage'] = 50
-            game_state['star_limit'] = 5
-
-    @staticmethod
-    def kurourushi_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Festering Life" in card.get('Effect', ''):
-            game_state['decay_damage'] = True
-        elif "Rot Spreader" in card.get('Effect', ''):
-            game_state['infection_spread'] = True
-        elif "Queen of Rot" in card.get('Variant', ''):
-            game_state['can_summon_larvae'] = True
-            game_state['larvae_stats'] = {'ATK': 50, 'DEF': 50}
-
-    @staticmethod
-    def charles_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
-        if "Mangaka's Determination" in card.get('Effect', ''):
-            if game_state.get('near_death', False):
-                card['ATK'] *= 2
-        elif "Comic Panel Creation" in card.get('Effect', ''):
-            game_state['can_trap_enemy'] = True
-        elif "Perfect Panel" in card.get('Variant', ''):
-            game_state['instant_defeat'] = True
 
     @staticmethod
     def ui_ability(card: Dict[str, Any], game_state: Dict[str, Any]) -> None:
@@ -646,3 +357,52 @@ ABILITIES = {
     "Brain": lambda char, game_state={}: CardAbility.brain_ability(char, game_state),
     "Gojo Satoru": lambda char, game_state={}: CardAbility.gojo_ability(char, game_state)
 }
+
+ABILITY_MAP = {
+    "Fushiguro Megumi": CardAbility.megumi_ability,
+    "Akari Nitta": CardAbility.akari_ability,
+    "Kiyotaka Ijichi": CardAbility.ijichi_ability,
+    "Panda": CardAbility.panda_ability,
+    "Shoko Ieiri": CardAbility.shoko_ability,
+    "Kasumi Miwa": CardAbility.miwa_ability,
+    "Rin Amai": CardAbility.amai_ability,
+    "Toge Inumaki": CardAbility.inumaki_ability,
+    "Kokichi Muta": CardAbility.muta_ability,
+    "Tsumiki Fushiguro": CardAbility.tsumiki_ability,
+    "Fumihiko Takaba": CardAbility.takaba_ability,
+    "Kirara Hoshi": CardAbility.kirara_ability,
+    "Momo Nishimiya": CardAbility.momo_ability,
+    "Masamichi Yaga": CardAbility.yaga_ability,
+    "Mai Zenin": CardAbility.mai_ability,
+    "Maki Zenin": CardAbility.maki_ability,
+    "Takuma Ino": CardAbility.ino_ability,
+    "Yoshinobu Gakuganji": CardAbility.gakuganji_ability,
+    "Haba": CardAbility.haba_ability,
+    "Kinji Hakari": CardAbility.hakari_ability,
+    "Suguru Geto": CardAbility.geto_ability,
+    "Aoi Todo": CardAbility.todo_ability,
+    "Mei Mei": CardAbility.mei_mei_ability,
+    "Hana Kurusu": CardAbility.kurusu_ability,
+    "Takako Uro": CardAbility.uro_ability,
+    "Noritoshi Kamo": CardAbility.kamo_ability,
+    "Naoya Zenin": CardAbility.naoya_ability,
+    "Kento Nanami": CardAbility.nanami_ability,
+    "Hiromi Higuruma": CardAbility.higuruma_ability,
+    "Kenjaku": CardAbility.kenjaku_ability,
+    "Hajime Kashimo": CardAbility.kashimo_ability,
+    "Ryu Ishigori": CardAbility.ishigori_ability,
+    "Master Tengen": CardAbility.tengen_ability,
+    "Ryomen Sukuna": CardAbility.sukuna_ability,
+    "Yuki Tsukumo": CardAbility.tsukumo_ability,
+    "Yuta Okkotsu": CardAbility.yuta_ability,
+    "Naobito Zenin": CardAbility.naobito_ability,
+    "Gojo Satoru": CardAbility.gojo_ability,
+    # Legacy keys retained for backward compatibility
+    "Reggie": CardAbility.reggie_ability,
+    "Dhruv": CardAbility.dhruv_ability,
+    "Kurourushi": CardAbility.kurourushi_ability,
+    "Charles": CardAbility.charles_ability,
+    "UI": CardAbility.ui_ability,
+    "Brain": CardAbility.brain_ability,
+}
+

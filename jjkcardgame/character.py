@@ -11,6 +11,7 @@ from ultimate_abilities import (
     UltimateAbility,
     ULTIMATE_ABILITY_FUNCTIONS,
 )
+from character_ids import normalize_character_name
 
 class Character(BaseCharacter):
     """
@@ -57,7 +58,7 @@ class Character(BaseCharacter):
         try:
             # Create the character instance
             character = cls(
-                name=card['Name'],
+                name=normalize_character_name(card['Name']),
                 variant=card.get('Variant', 'Standard'),  # Default to 'Standard' if not provided
                 cost=card['Cost'],
                 atk=card['ATK'],
@@ -80,7 +81,7 @@ class Character(BaseCharacter):
 
     def get_ultimate_ability(self) -> Optional[UltimateAbility]:
         """Retrieve the ultimate ability for this character based on its name and variant."""
-        func = ULTIMATE_ABILITY_FUNCTIONS.get(self.name)
+        func = ULTIMATE_ABILITY_FUNCTIONS.get(normalize_character_name(self.name))
         if func:
             return func(self, None, None)
         return None
@@ -108,6 +109,27 @@ class Character(BaseCharacter):
         self.cannot_attack_next_turn = False
         self.status_effects = []
         self.regen_rate = 1.0
+        self.active_effects = {
+            'modifiers': {
+                'atk': 0,
+                'def': 0,
+                'damage_reduction': 0.0,
+            },
+            'statuses': {},
+            'timed_effects': [],
+            'one_time_triggers': set(),
+            'flags': {}
+        }
+
+    def get_effective_atk(self) -> int:
+        return max(0, self.atk + int(self.active_effects['modifiers'].get('atk', 0)))
+
+    def get_effective_def(self) -> int:
+        return max(0, self.def_val + int(self.active_effects['modifiers'].get('def', 0)))
+
+    def get_damage_reduction(self) -> float:
+        reduction = float(self.active_effects['modifiers'].get('damage_reduction', 0.0))
+        return min(max(reduction, 0.0), 0.95)
 
     def apply_passive_ability(self):
         """
@@ -134,6 +156,8 @@ class Character(BaseCharacter):
 
     def take_damage(self, amount):
         """Process incoming damage with damage reduction if applicable."""
+        reduction = self.get_damage_reduction()
+        amount = int(amount * (1 - reduction))
         actual_damage = min(amount, self.current_health)
         self.current_health -= actual_damage
         return actual_damage
