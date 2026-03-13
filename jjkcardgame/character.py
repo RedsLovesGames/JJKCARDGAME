@@ -11,6 +11,7 @@ from ultimate_abilities import (
     UltimateAbility,
     ULTIMATE_ABILITY_FUNCTIONS,
 )
+from character_ids import normalize_character_name
 
 class Character(BaseCharacter):
     """
@@ -57,7 +58,7 @@ class Character(BaseCharacter):
         try:
             # Create the character instance
             character = cls(
-                name=card['Name'],
+                name=normalize_character_name(card['Name']),
                 variant=card.get('Variant', 'Standard'),  # Default to 'Standard' if not provided
                 cost=card['Cost'],
                 atk=card['ATK'],
@@ -80,7 +81,7 @@ class Character(BaseCharacter):
 
     def get_ultimate_ability(self) -> Optional[UltimateAbility]:
         """Retrieve the ultimate ability for this character based on its name and variant."""
-        func = ULTIMATE_ABILITY_FUNCTIONS.get(self.name)
+        func = ULTIMATE_ABILITY_FUNCTIONS.get(normalize_character_name(self.name))
         if func:
             return func(self, None, None)
         return None

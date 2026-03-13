@@ -1,8 +1,12 @@
+import os
 import random
 from typing import List, Dict, Any
 import pandas as pd
 from base_types import BaseDeck
 from character import Character
+from character_ids import normalize_character_name, report_binding_validation
+from card_abilities import ABILITY_MAP
+from ultimate_abilities import ULTIMATE_ABILITY_FUNCTIONS
 
 class Deck(BaseDeck):
     # Ideal distribution of cards by cost (total should be 40)
@@ -18,6 +22,8 @@ class Deck(BaseDeck):
 
     def __init__(self, cards_df: pd.DataFrame, size: int = 40):
         self.cards_df = self.standardize_column_names(cards_df)
+        csv_path = os.path.join(os.path.dirname(__file__), "characters.csv")
+        report_binding_validation(csv_path, tuple(ABILITY_MAP.keys()), tuple(ULTIMATE_ABILITY_FUNCTIONS.keys()))
         self.size = size
         self.cards = self.build_initial_deck(self.cards_df)
         self.graveyard = []  # Add graveyard list
@@ -54,7 +60,8 @@ class Deck(BaseDeck):
         df['DEF'] = pd.to_numeric(df['DEF'], errors='coerce').fillna(0).astype(int)
         df['Effect'] = df['Effect'].fillna('')
         df['Variant'] = df['Variant'].fillna('Standard')
-        
+        df['Name'] = df['Name'].apply(normalize_character_name)
+
         return df
         
     def build_initial_deck(self, cards_df: pd.DataFrame) -> List[Character]:
@@ -215,7 +222,7 @@ class Deck(BaseDeck):
     def create_character_from_data(self, card_data: dict) -> Character:
         """Create a Character instance from card data."""
         character = Character(
-            name=card_data['Name'],
+            name=normalize_character_name(card_data['Name']),
             variant=card_data.get('Variant', 'Standard'),  # Ensure variant is retrieved correctly
             cost=card_data['Cost'],
             atk=card_data['ATK'],
