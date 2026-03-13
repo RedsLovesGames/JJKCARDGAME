@@ -1,7 +1,7 @@
 import pandas as pd
 import random
 import os
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Callable, Protocol, Union
 from deck import Deck
 from character import Character
 from player import Player
@@ -10,12 +10,177 @@ from ultimate_abilities import get_ultimate_ability, ULTIMATE_ABILITY_FUNCTIONS
 from card_abilities import CardAbility, ABILITY_MAP
 from character_ids import normalize_character_name, report_binding_validation
 
+
+class BattlePolicy(Protocol):
+    """Decision interface used by a Battle during the action phase."""
+
+    def choose_play(self, player: Player, battle: 'Battle') -> Optional[Character]:
+        """Return the next card to play from hand, or None to stop playing cards."""
+
+    def choose_attack_target(
+        self,
+        attacker: Character,
+        opponent: Player,
+        battle: 'Battle'
+    ) -> Optional[Character]:
+        """Return attack target on opponent field, or None for direct attack."""
+
+    def choose_ultimate_target(
+        self,
+        attacker: Character,
+        opponent: Player,
+        battle: 'Battle'
+    ) -> Optional[Character]:
+        """Return target for ultimate activation, or None to skip using ultimate."""
+
+
+class AIPolicy:
+    """Heuristic policy for card play, targeting and ultimate timing."""
+
+    def choose_play(self, player: Player, battle: 'Battle') -> Optional[Character]:
+        playable_cards = [card for card in player.hand if player.can_play_card(card)]
+        if not playable_cards or len(player.field) >= 5:
+            return None
+
+        # Prioritize strongest immediately playable card with mild cost efficiency bias.
+        return max(
+            playable_cards,
+            key=lambda card: (card.atk + int(card.def_val * 0.4)) - card.cost * 5
+        )
+
+    def choose_attack_target(
+        self,
+        attacker: Character,
+        opponent: Player,
+        battle: 'Battle'
+    ) -> Optional[Character]:
+        if not opponent.field:
+            return None
+        return battle._select_optimal_target(attacker, opponent.field)
+
+    def choose_ultimate_target(
+        self,
+        attacker: Character,
+        opponent: Player,
+        battle: 'Battle'
+    ) -> Optional[Character]:
+        if not opponent.field:
+            return None
+
+        can_use_ultimate = (
+            get_ultimate_ability(attacker.name, attacker.variant) is not None
+            and attacker.energy >= attacker.ultimate_energy_cost
+        )
+        if not can_use_ultimate:
+            return None
+
+        # Use ultimate when it is likely to secure a KO or when board pressure is high.
+        high_threat = max(opponent.field, key=lambda c: c.atk)
+        killable = [target for target in opponent.field if target.current_health <= attacker.ultimate_damage]
+        if killable:
+            return min(killable, key=lambda c: c.current_health)
+        if high_threat.atk >= attacker.atk * 1.2:
+            return high_threat
+        return None
+
+
+class HumanPolicy:
+    """Policy adapter that accepts decisions from UI/web callbacks or console input."""
+
+    def __init__(
+        self,
+        decision_provider: Optional[
+            Callable[[str, Dict[str, Any]], Optional[Union[int, Character]]]
+        ] = None
+    ):
+        self.decision_provider = decision_provider
+
+    def _request(self, action: str, payload: Dict[str, Any]) -> Optional[Union[int, Character]]:
+        if self.decision_provider:
+            return self.decision_provider(action, payload)
+        return None
+
+    def choose_play(self, player: Player, battle: 'Battle') -> Optional[Character]:
+        playable_cards = [card for card in player.hand if player.can_play_card(card)]
+        if not playable_cards or len(player.field) >= 5:
+            return None
+
+        decision = self._request('choose_play', {'player': player, 'playable_cards': playable_cards, 'battle': battle})
+        if isinstance(decision, Character) and decision in playable_cards:
+            return decision
+        if isinstance(decision, int) and 0 <= decision < len(playable_cards):
+            return playable_cards[decision]
+
+        # Console fallback for local manual play.
+        for idx, card in enumerate(playable_cards):
+            print(f"[{idx}] {card.name} (Cost {card.cost}, ATK {card.atk}, DEF {card.def_val})")
+        raw = input(f"{player.name}: choose card index to play or Enter to skip: ").strip()
+        if raw == '':
+            return None
+        if raw.isdigit() and int(raw) < len(playable_cards):
+            return playable_cards[int(raw)]
+        return None
+
+    def choose_attack_target(
+        self,
+        attacker: Character,
+        opponent: Player,
+        battle: 'Battle'
+    ) -> Optional[Character]:
+        if not opponent.field:
+            return None
+
+        decision = self._request('choose_attack_target', {'attacker': attacker, 'opponent': opponent, 'battle': battle})
+        if isinstance(decision, Character) and decision in opponent.field:
+            return decision
+        if isinstance(decision, int) and 0 <= decision < len(opponent.field):
+            return opponent.field[decision]
+
+        for idx, card in enumerate(opponent.field):
+            print(f"[{idx}] {card.name} (HP {card.current_health}, ATK {card.atk})")
+        raw = input(f"Choose attack target for {attacker.name} or Enter for default: ").strip()
+        if raw.isdigit() and int(raw) < len(opponent.field):
+            return opponent.field[int(raw)]
+        return max(opponent.field, key=lambda x: x.atk)
+
+    def choose_ultimate_target(
+        self,
+        attacker: Character,
+        opponent: Player,
+        battle: 'Battle'
+    ) -> Optional[Character]:
+        if not opponent.field:
+            return None
+
+        decision = self._request('choose_ultimate_target', {'attacker': attacker, 'opponent': opponent, 'battle': battle})
+        if isinstance(decision, Character) and decision in opponent.field:
+            return decision
+        if isinstance(decision, int) and 0 <= decision < len(opponent.field):
+            return opponent.field[decision]
+        if decision is None and self.decision_provider:
+            return None
+
+        raw = input(f"Use ultimate with {attacker.name}? (y/N): ").strip().lower()
+        if raw != 'y':
+            return None
+        return max(opponent.field, key=lambda x: x.current_health)
+
 class Battle:
-    def __init__(self, player1: Player, player2: Player):
+    def __init__(
+        self,
+        player1: Player,
+        player2: Player,
+        player1_policy: Optional[BattlePolicy] = None,
+        player2_policy: Optional[BattlePolicy] = None
+    ):
         if not isinstance(player1.deck, Deck) or not isinstance(player2.deck, Deck):
             raise ValueError("Players must be initialized with proper Deck objects")
         self.player1 = player1
         self.player2 = player2
+        self.policies: Dict[str, BattlePolicy] = {
+            player1.name: player1_policy or AIPolicy(),
+            player2.name: player2_policy or AIPolicy()
+        }
         self.damage_stats = {
             'direct_damage': {},
             'ultimate_damage': {},
@@ -27,7 +192,7 @@ class Battle:
         self.ability_usage_tracker = {}
         self.battle_log = []
         self.current_turn = 1
-        self.placements_this_turn = {"Player 1": 0, "Player 2": 0}
+        self.placements_this_turn = {self.player1.name: 0, self.player2.name: 0}
         self.game_state = {
             'gojo_on_field': False,
             'yuji_on_field': False,
@@ -88,39 +253,47 @@ class Battle:
             return True
         return False
 
-    def process_combat(self, attacker: Character, defender: Player):
-        """Process combat damage and update statistics."""
+    def process_combat(
+        self,
+        attacker: Character,
+        defender: Player,
+        policy: Optional[BattlePolicy] = None
+    ):
+        """Resolve one attacker action via the centralized combat rules engine."""
         if not isinstance(attacker, Character):
             return
-        
-        # Check for ultimate ability activation
-        ultimate = get_ultimate_ability(attacker.name, attacker.variant)
-        
-        # Increase the chance of using the ultimate
-        if ultimate and defender.field and attacker.energy >= attacker.ultimate_energy_cost:
-            if random.random() < 1.0:  # 100% chance to use ultimate
-                target = max(defender.field, key=lambda x: x.current_health)
-                damage = attacker.use_ultimate(target)
-                if damage > 0:
-                    self._update_damage_stats(attacker.name, damage, 'ultimate_damage')
-                    self.battle_log.append(f"{attacker.name} uses ultimate on {target.name} for {damage} damage")
-                    return  # Skip regular attack if ultimate was used
 
-        # Regular combat
-        if defender.field:
-            target = max(defender.field, key=lambda x: x.atk)
-            damage = attacker.atk
-            actual_damage = target.take_damage(damage)
+        policy = policy or AIPolicy()
+
+        # Ultimate decision is delegated to policy; rules remain centralized here.
+        ultimate_target = policy.choose_ultimate_target(attacker, defender, self)
+        if ultimate_target and ultimate_target in defender.field:
+            damage = attacker.use_ultimate(ultimate_target)
+            if damage > 0:
+                self._update_damage_stats(attacker.name, damage, 'ultimate_damage')
+                self.battle_log.append(
+                    f"{attacker.name} uses ultimate on {ultimate_target.name} for {damage} damage"
+                )
+                if not ultimate_target.is_alive():
+                    defender.field.remove(ultimate_target)
+                    self.card_damage_tracker[attacker.name]['kills'] += 1
+                attacker.add_energy()
+                return
+
+        attack_target = policy.choose_attack_target(attacker, defender, self)
+        if attack_target and attack_target in defender.field:
+            actual_damage = attack_target.take_damage(attacker.atk)
             self._update_damage_stats(attacker.name, actual_damage, 'direct_damage')
-            self.battle_log.append(f"{attacker.name} attacks {target.name} for {actual_damage} damage")
+            self.battle_log.append(f"{attacker.name} attacks {attack_target.name} for {actual_damage} damage")
+            if not attack_target.is_alive():
+                defender.field.remove(attack_target)
+                self.card_damage_tracker[attacker.name]['kills'] += 1
         else:
-            # Direct attack
             damage = attacker.atk
             defender.take_damage(damage)
             self._update_damage_stats(attacker.name, damage, 'direct_damage')
             self.battle_log.append(f"{attacker.name} attacks directly for {damage} damage")
 
-        # Add energy after action
         attacker.add_energy()
 
     def process_character_combat(self, attacker: Character, defender: Character):
@@ -137,28 +310,30 @@ class Battle:
         self.battle_log.append(f"    {defender.name}'s remaining HP: {defender.current_health}")
 
     def process_turn(self, active_player: Player, opponent: Player) -> bool:
-        """Process a single turn according to rules"""
+        """Process a single turn according to rules."""
+        policy = self.policies.get(active_player.name, AIPolicy())
+
         # Draw Phase
         if active_player.deck.cards_remaining() > 0:
             active_player.draw_cards(1)
-        
+
         # Energy Gain Phase
         active_player.add_energy()
-        
-        # Action Phase (includes playing cards and combat)
-        self._process_actions(active_player, opponent)
-        
+
+        # Action Phase (decisions via policy, resolution via battle engine)
+        self._process_actions(active_player, opponent, policy)
+
         # End Phase - Regenerate characters
         for character in active_player.field:
             character.regenerate_health()
-        
+
         # Check for game end
         return opponent.life_points <= 0
 
     def simulate_battle(self):
         max_turns = 50
         while self.current_turn <= max_turns:
-            self.placements_this_turn = {"Player 1": 0, "Player 2": 0}
+            self.placements_this_turn = {self.player1.name: 0, self.player2.name: 0}
             
             if self.process_turn(self.player1, self.player2):
                 return self.player1
@@ -416,62 +591,41 @@ class Battle:
                 if hasattr(effect, 'process_end_turn'):
                     effect.process_end_turn(character)
 
-    def _process_actions(self, active_player: Player, opponent: Player) -> None:
-        """Process the action phase of a turn"""
-        # Play cards phase
-        playable_cards = [card for card in active_player.hand if card.cost <= active_player.energy]
-        
-        # Can play up to 2 cards per turn
-        for card in playable_cards[:2]:  
-            if active_player.energy >= card.cost and len(active_player.field) < 5:
-                try:
-                    active_player.play_card(card)
-                    self.placements_this_turn[active_player.name] += 1
-                    
-                    # Track card usage
-                    if card.name in self.card_damage_tracker:
-                        self.card_damage_tracker[card.name]['times_played'] += 1
-                    
-                    # Log the play
-                    self.battle_log.append(f"{active_player.name} plays {card.name}")
-                except Exception as e:
-                    self.battle_log.append(f"Failed to play {card.name}: {str(e)}")
-                    continue
-        
-        # Combat phase
-        for attacker in active_player.field:
+    def _process_actions(
+        self,
+        active_player: Player,
+        opponent: Player,
+        policy: BattlePolicy
+    ) -> None:
+        """Process action phase using policy decisions and centralized combat resolution."""
+        # Play phase: up to 2 placements by policy.
+        for _ in range(2):
+            if self.placements_this_turn[active_player.name] >= 2 or len(active_player.field) >= 5:
+                break
             try:
-                # First check for ultimate ability
-                ultimate = get_ultimate_ability(attacker.name, attacker.variant)
-                if (ultimate and opponent.field and 
-                    attacker.energy >= attacker.ultimate_energy_cost):
-                    target = max(opponent.field, key=lambda x: x.current_health)
-                    damage = attacker.use_ultimate(target)
-                    if damage > 0:
-                        self._update_damage_stats(attacker.name, damage, 'ultimate_damage')
-                        self.battle_log.append(f"{attacker.name} uses ultimate on {target.name} for {damage} damage")
-                        continue  # Skip regular attack if ultimate was used
+                card = policy.choose_play(active_player, self)
+                if card is None:
+                    break
+                if not active_player.play_card(card):
+                    self.battle_log.append(f"{active_player.name} failed to play {card.name}")
+                    break
 
-                # Regular combat
-                if opponent.field:
-                    target = max(opponent.field, key=lambda x: x.atk)
-                    damage = attacker.atk
-                    actual_damage = target.take_damage(damage)
-                    self._update_damage_stats(attacker.name, actual_damage, 'direct_damage')
-                    self.battle_log.append(f"{attacker.name} attacks {target.name} for {actual_damage} damage")
-                else:
-                    # Direct attack
-                    damage = attacker.atk
-                    opponent.take_damage(damage)
-                    self._update_damage_stats(attacker.name, damage, 'direct_damage')
-                    self.battle_log.append(f"{attacker.name} attacks directly for {damage} damage")
+                self.placements_this_turn[active_player.name] += 1
+                if card.name in self.card_damage_tracker:
+                    self.card_damage_tracker[card.name]['times_played'] += 1
+                self.battle_log.append(f"{active_player.name} plays {card.name}")
+            except Exception as e:
+                self.battle_log.append(f"Failed play decision for {active_player.name}: {str(e)}")
+                break
 
-                # Add energy after action
-                attacker.add_energy()
-                
+        # Combat phase: each field character acts through the same engine.
+        for attacker in list(active_player.field):
+            if not attacker.is_alive():
+                continue
+            try:
+                self.process_combat(attacker, opponent, policy)
             except Exception as e:
                 self.battle_log.append(f"Combat failed for {attacker.name}: {str(e)}")
-                continue
 
 def load_characters(filename='characters.csv'):
     try:
@@ -495,6 +649,15 @@ def load_characters(filename='characters.csv'):
         print(f"Error loading characters: {e}")
         return None
 
+
+def _build_mode_policies(game_mode: str):
+    mode = (game_mode or 'ai_vs_ai').lower()
+    if mode == 'human_vs_ai':
+        return HumanPolicy(), AIPolicy()
+    if mode == 'human_vs_human':
+        return HumanPolicy(), HumanPolicy()
+    return AIPolicy(), AIPolicy()
+
 def run_menu():
     while True:
         print("\nJJK Card Game Simulator")
@@ -508,7 +671,8 @@ def run_menu():
             try:
                 runs = int(input("\nEnter number of runs (1-1000): "))
                 runs = max(1, min(1000, runs))
-                simulate_battles("characters.csv", runs)
+                mode = input("Game mode (ai_vs_ai/human_vs_ai/human_vs_human) [ai_vs_ai]: ").strip() or "ai_vs_ai"
+                simulate_battles("characters.csv", runs, game_mode=mode)
             except ValueError:
                 print("Invalid input. Please enter a number between 1 and 1000.")
         elif choice == "2":
@@ -517,8 +681,8 @@ def run_menu():
         else:
             print("\nInvalid choice. Please enter 1 or 2.")
 
-def simulate_battles(card_file: str, num_simulations: int):
-    """Run multiple battle simulations and collect statistics"""
+def simulate_battles(card_file: str, num_simulations: int, game_mode: str = "ai_vs_ai"):
+    """Run battles for selected game mode: ai_vs_ai, human_vs_ai, human_vs_human."""
     try:
         # Load characters and create decks
         characters = load_characters(card_file)
@@ -530,17 +694,21 @@ def simulate_battles(card_file: str, num_simulations: int):
         wins = {"Player 1": 0, "Player 2": 0}
         card_stats = {}
         
+        p1_policy, p2_policy = _build_mode_policies(game_mode)
+
         for i in range(num_simulations):
             battle = Battle(
                 Player("Player 1", Deck(characters)),
-                Player("Player 2", Deck(characters))
+                Player("Player 2", Deck(characters)),
+                player1_policy=p1_policy,
+                player2_policy=p2_policy
             )
             winner = battle.simulate_battle()
             if winner:
                 wins[winner.name] += 1
                 
         # Print results
-        print("\nSimulation Results:")
+        print(f"\nSimulation Results ({game_mode}):")
         print(f"Total Battles: {num_simulations}")
         print(f"Player 1 Wins: {wins['Player 1']}")
         print(f"Player 2 Wins: {wins['Player 2']}")
