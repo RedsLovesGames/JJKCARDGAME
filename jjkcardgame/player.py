@@ -43,7 +43,15 @@ class Player(BasePlayer):
         self.life_points = 2000
         self.energy = 0
         self.max_energy = 10
-        self.active_effects = {}  # Track active effects on player
+        self.active_effects = {
+            'modifiers': {
+                'damage_reduction': 0.0,
+            },
+            'statuses': {},
+            'timed_effects': [],
+            'one_time_triggers': set(),
+            'flags': {}
+        }
         
         # Draw initial hand
         self.draw_cards(5)
