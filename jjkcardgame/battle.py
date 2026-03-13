@@ -364,7 +364,7 @@ class Battle:
                 self.card_damage_tracker[attacker.name]['kills'] += 1
         else:
             damage = attacker.atk
-            defender.take_damage(damage)
+            opponent.take_damage(damage)
             self._update_damage_stats(attacker.name, damage, 'direct_damage')
             self.battle_log.append(f"{attacker.name} attacks directly for {damage} damage")
 
@@ -431,8 +431,8 @@ class Battle:
                     if ultimate:
                         f.write(f"{card_name} - {ultimate.name}: {damage} damage\n")
                         f.write(f"    Damage Multiplier: x{ultimate.damage_multiplier}\n")
-                        if ultimate.status_effects:
-                            f.write(f"    Status Effects: {', '.join(ultimate.status_effects)}\n")
+                        if ultimate.effects:
+                            f.write(f"    Effects: {ultimate.effects}\n")
             f.write("\nAbility Usage and Effects:\n")
             for card_name, stats in self.ability_usage_tracker.items():
                 if stats['times_used'] > 0:

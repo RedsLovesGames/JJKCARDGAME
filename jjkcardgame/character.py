@@ -162,7 +162,7 @@ class Character(BaseCharacter):
         self.current_health -= actual_damage
         return actual_damage
 
-    def use_ultimate(self, target):
+    def use_ultimate(self, target=None) -> Optional[UltimateAbility]:
         """
         Attempt to use ultimate move on target.
         
@@ -170,12 +170,17 @@ class Character(BaseCharacter):
             target: Character to target with ultimate
             
         Returns:
-            int: Damage dealt (0 if not enough energy)
+            Optional[UltimateAbility]: Ultimate payload used for battle resolution
         """
-        if self.energy >= self.ultimate_energy_cost:
-            self.energy -= self.ultimate_energy_cost
-            return target.take_damage(self.ultimate_damage)
-        return 0
+        if self.energy < self.ultimate_energy_cost:
+            return None
+
+        ability = self.get_ultimate_ability()
+        if not ability:
+            return None
+
+        self.energy -= self.ultimate_energy_cost
+        return ability
 
     def is_alive(self):
         """Check if character is still alive (has defense points)."""
